@@ -1,0 +1,10 @@
+locals {
+  rbac = {
+    clusterRoleRules = [
+
+    ]
+    roleRules = [
+
+    ]
+  }
+}
