@@ -2,14 +2,14 @@ locals {
   rbac = {
     clusterRoleRules = [
       #{
-      #  api_groups = [""]
+      #  apiGroups = [""]
       #  resources  = [""]
       #  verbs      = [""]
       #},
     ]
     roleRules = [
       #{
-      #  api_groups = [""]
+      #  apiGroups = [""]
       #  resources = [""]
       #  verbs = [""]
       #},

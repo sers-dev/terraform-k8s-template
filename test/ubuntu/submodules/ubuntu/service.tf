@@ -4,14 +4,14 @@ locals {
       ip                       = null
       publishNotReadyAddresses = false
       sessionAffinity          = "None"
-      annotations              = merge({
+      annotations = merge({
 
       }, var.additionalAnnotations.service)
     }
     headless = {
       publishNotReadyAddresses = false
       sessionAffinity          = "None"
-      annotations              = merge({
+      annotations = merge({
 
       }, var.additionalAnnotations.service)
     }

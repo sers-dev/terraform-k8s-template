@@ -4,7 +4,7 @@ locals {
       #"tmp" = {
       #  path = "/tmp"
       #  medium = "Memory"
-      #  size_limit = "10Mi"
+      #  sizeLimit = "10Mi"
       #}
     }
     hostPath = {

@@ -20,7 +20,7 @@ locals {
           }
           limits = {
             memory = "replaceMe"
-            cpu = null
+            cpu    = null
           }
         }
       }

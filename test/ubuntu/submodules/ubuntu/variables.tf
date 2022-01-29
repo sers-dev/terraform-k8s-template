@@ -24,8 +24,8 @@ variable "tfWaitForRollout" {
 
 variable "additionalAnnotations" {
   type = object({
-    service = map(string)
-    pod = map(string)
+    service         = map(string)
+    pod             = map(string)
     podResourceType = map(string)
   })
 }

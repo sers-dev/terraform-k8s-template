@@ -19,7 +19,7 @@ locals {
           }
           limits = {
             memory = "256Mi"
-            cpu = null
+            cpu    = null
           }
         }
       }

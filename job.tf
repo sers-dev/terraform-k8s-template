@@ -116,10 +116,10 @@ resource "kubernetes_job_v1" "job" {
         dynamic "volume" {
           for_each = var.applicationConfig.externalSecretVolumes
           content {
-            name = volume.value.name
+            name = volume.key
             secret {
               default_mode = volume.value.defaultMode
-              secret_name  = volume.value.name
+              secret_name  = volume.key
             }
           }
         }
@@ -164,7 +164,7 @@ resource "kubernetes_job_v1" "job" {
             name = volume.key
             empty_dir {
               medium     = volume.value.medium
-              size_limit = volume.value.size_limit
+              size_limit = volume.value.sizeLimit
             }
           }
         }
@@ -227,7 +227,7 @@ resource "kubernetes_job_v1" "job" {
                         scheme = init_container.value.preStop.httpGet.scheme
 
                         dynamic "http_header" {
-                          for_each = init_container.value.preStop.httpGet.http_header
+                          for_each = init_container.value.preStop.httpGet.header
                           content {
                             name  = http_header.key
                             value = http_header.value
@@ -264,7 +264,7 @@ resource "kubernetes_job_v1" "job" {
                         scheme = init_container.value.postStart.httpGet.scheme
 
                         dynamic "http_header" {
-                          for_each = init_container.value.postStart.httpGet.http_header
+                          for_each = init_container.value.postStart.httpGet.header
                           content {
                             name  = http_header.key
                             value = http_header.value
@@ -449,7 +449,7 @@ resource "kubernetes_job_v1" "job" {
                         scheme = container.value.preStop.httpGet.scheme
 
                         dynamic "http_header" {
-                          for_each = container.value.preStop.httpGet.http_header
+                          for_each = container.value.preStop.httpGet.header
                           content {
                             name  = http_header.key
                             value = http_header.value
@@ -486,7 +486,7 @@ resource "kubernetes_job_v1" "job" {
                         scheme = container.value.postStart.httpGet.scheme
 
                         dynamic "http_header" {
-                          for_each = container.value.postStart.httpGet.http_header
+                          for_each = container.value.postStart.httpGet.header
                           content {
                             name  = http_header.key
                             value = http_header.value

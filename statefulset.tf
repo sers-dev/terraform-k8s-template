@@ -187,7 +187,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
             name = volume.key
             empty_dir {
               medium     = volume.value.medium
-              size_limit = volume.value.size_limit
+              size_limit = volume.value.sizeLimit
             }
           }
         }
@@ -250,7 +250,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
                         scheme = init_container.value.preStop.httpGet.scheme
 
                         dynamic "http_header" {
-                          for_each = init_container.value.preStop.httpGet.http_header
+                          for_each = init_container.value.preStop.httpGet.header
                           content {
                             name  = http_header.key
                             value = http_header.value
@@ -287,7 +287,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
                         scheme = init_container.value.postStart.httpGet.scheme
 
                         dynamic "http_header" {
-                          for_each = init_container.value.postStart.httpGet.http_header
+                          for_each = init_container.value.postStart.httpGet.header
                           content {
                             name  = http_header.key
                             value = http_header.value
@@ -481,7 +481,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
                         scheme = container.value.preStop.httpGet.scheme
 
                         dynamic "http_header" {
-                          for_each = container.value.preStop.httpGet.http_header
+                          for_each = container.value.preStop.httpGet.header
                           content {
                             name  = http_header.key
                             value = http_header.value
@@ -518,7 +518,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
                         scheme = container.value.postStart.httpGet.scheme
 
                         dynamic "http_header" {
-                          for_each = container.value.postStart.httpGet.http_header
+                          for_each = container.value.postStart.httpGet.header
                           content {
                             name  = http_header.key
                             value = http_header.value
@@ -599,6 +599,135 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
               content {
                 config_map_ref {
                   name = kubernetes_config_map_v1.configEnv.0.metadata.0.name
+                }
+              }
+            }
+
+            dynamic "startup_probe" {
+              for_each = container.value.probes.startup.httpGet.enabled || container.value.probes.startup.tcpSocket.enabled || container.value.probes.startup.exec.enabled ? [1] : []
+              content {
+                initial_delay_seconds = container.value.probes.startup.initialDelaySeconds
+                success_threshold     = container.value.probes.startup.successThreshold
+                failure_threshold     = container.value.probes.startup.failureThreshold
+                period_seconds        = container.value.probes.startup.periodSeconds
+                timeout_seconds       = container.value.probes.startup.timeoutSeconds
+
+                dynamic "exec" {
+                  for_each = container.value.probes.startup.exec.enabled ? [1] : []
+                  content {
+                    command = container.value.probes.startup.exec.command
+                  }
+                }
+
+                dynamic "http_get" {
+                  for_each = container.value.probes.startup.httpGet.enabled ? [1] : []
+                  content {
+                    path   = container.value.probes.startup.httpGet.path
+                    port   = container.value.probes.startup.httpGet.port
+                    host   = container.value.probes.startup.httpGet.host
+                    scheme = container.value.probes.startup.httpGet.scheme
+
+                    dynamic "http_header" {
+                      for_each = container.value.probes.startup.httpGet.header
+                      content {
+                        name  = http_header.key
+                        value = http_header.value
+                      }
+                    }
+                  }
+                }
+
+                dynamic "tcp_socket" {
+                  for_each = container.value.probes.startup.tcpSocket.enabled ? [1] : []
+                  content {
+                    port = container.value.probes.startup.tcpSocket.port
+                  }
+                }
+              }
+            }
+
+            dynamic "readiness_probe" {
+              for_each = container.value.probes.readiness.httpGet.enabled || container.value.probes.readiness.tcpSocket.enabled || container.value.probes.readiness.exec.enabled ? [1] : []
+              content {
+                initial_delay_seconds = container.value.probes.readiness.initialDelaySeconds
+                success_threshold     = container.value.probes.readiness.successThreshold
+                failure_threshold     = container.value.probes.readiness.failureThreshold
+                period_seconds        = container.value.probes.readiness.periodSeconds
+                timeout_seconds       = container.value.probes.readiness.timeoutSeconds
+
+                dynamic "exec" {
+                  for_each = container.value.probes.readiness.exec.enabled ? [1] : []
+                  content {
+                    command = container.value.probes.readiness.exec.command
+                  }
+                }
+
+                dynamic "http_get" {
+                  for_each = container.value.probes.readiness.httpGet.enabled ? [1] : []
+                  content {
+                    path   = container.value.probes.readiness.httpGet.path
+                    port   = container.value.probes.readiness.httpGet.port
+                    host   = container.value.probes.readiness.httpGet.host
+                    scheme = container.value.probes.readiness.httpGet.scheme
+
+                    dynamic "http_header" {
+                      for_each = container.value.probes.readiness.httpGet.header
+                      content {
+                        name  = http_header.key
+                        value = http_header.value
+                      }
+                    }
+                  }
+                }
+
+                dynamic "tcp_socket" {
+                  for_each = container.value.probes.readiness.tcpSocket.enabled ? [1] : []
+                  content {
+                    port = container.value.probes.readiness.tcpSocket.port
+                  }
+                }
+              }
+            }
+
+            dynamic "liveness_probe" {
+              for_each = container.value.probes.liveness.httpGet.enabled || container.value.probes.liveness.tcpSocket.enabled || container.value.probes.liveness.exec.enabled ? [1] : []
+              content {
+                initial_delay_seconds = container.value.probes.liveness.initialDelaySeconds
+                success_threshold     = container.value.probes.liveness.successThreshold
+                failure_threshold     = container.value.probes.liveness.failureThreshold
+                period_seconds        = container.value.probes.liveness.periodSeconds
+                timeout_seconds       = container.value.probes.liveness.timeoutSeconds
+
+                dynamic "exec" {
+                  for_each = container.value.probes.liveness.exec.enabled ? [1] : []
+                  content {
+                    command = container.value.probes.liveness.exec.command
+                  }
+                }
+
+                dynamic "http_get" {
+                  for_each = container.value.probes.liveness.httpGet.enabled ? [1] : []
+                  content {
+                    path   = container.value.probes.liveness.httpGet.path
+                    port   = container.value.probes.liveness.httpGet.port
+                    host   = container.value.probes.liveness.httpGet.host
+                    scheme = container.value.probes.liveness.httpGet.scheme
+
+                    dynamic "http_header" {
+                      for_each = container.value.probes.liveness.httpGet.header
+                      content {
+                        name  = http_header.key
+                        value = http_header.value
+                      }
+                    }
+                  }
+                }
+
+                dynamic "tcp_socket" {
+                  for_each = container.value.probes.liveness.tcpSocket.enabled ? [1] : []
+                  content {
+                    port = container.value.probes.liveness.tcpSocket.port
+                  }
                 }
               }
             }

@@ -52,7 +52,3 @@ Personally I see quite a few problems with workspaces in terraform, but you do y
 #### How to manage sensitive data?
 
 If you can, simply autogenerate it as part of the terraform code. If you need them from external sources, inject them as you'd normally do for any other terraform code with `-var` in your pipeline or read them from the outputs of other terraform states as part of your instance
-
-## [1.0.0] - 24.01.2022
-- initial release
-- minimum Kubernetes Version required 1.19.X

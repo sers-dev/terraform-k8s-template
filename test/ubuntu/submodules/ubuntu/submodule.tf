@@ -1,10 +1,10 @@
 locals {
-  podResourceType = "deployment"
+  podResourceType = "statefulset"
 }
 
 module "template" {
-  source          = "../../../../"
-  podResourceType = local.podResourceType
+  source           = "../../../../"
+  podResourceType  = local.podResourceType
   tfWaitForRollout = var.tfWaitForRollout
 
   consistency = module.consistency.all

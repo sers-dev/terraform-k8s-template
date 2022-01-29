@@ -31,14 +31,14 @@ variable "rbac" {
   description = "K8S permissions"
   type = object({
     clusterRoleRules = list(object({
-      api_groups = list(string)
-      resources  = list(string)
-      verbs      = list(string)
+      apiGroups = list(string)
+      resources = list(string)
+      verbs     = list(string)
     }))
     roleRules = list(object({
-      api_groups = list(string)
-      resources  = list(string)
-      verbs      = list(string)
+      apiGroups = list(string)
+      resources = list(string)
+      verbs     = list(string)
     }))
   })
 }
@@ -204,9 +204,9 @@ variable "topologySpread" {
 variable "volumes" {
   type = object({
     emptyDir = map(object({
-      path       = string
-      medium     = string
-      size_limit = string
+      path      = string
+      medium    = string
+      sizeLimit = string
     }))
     hostPath = map(object({
       hostPath = string

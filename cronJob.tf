@@ -122,10 +122,10 @@ resource "kubernetes_cron_job_v1" "cronJob" {
             dynamic "volume" {
               for_each = var.applicationConfig.externalConfigVolumes
               content {
-                name = volume.value.name
+                name = volume.key
                 config_map {
                   default_mode = volume.value.defaultMode
-                  name         = volume.value.name
+                  name         = volume.key
                 }
               }
             }
@@ -134,10 +134,10 @@ resource "kubernetes_cron_job_v1" "cronJob" {
             dynamic "volume" {
               for_each = var.applicationConfig.externalSecretVolumes
               content {
-                name = volume.value.name
+                name = volume.key
                 secret {
                   default_mode = volume.value.defaultMode
-                  secret_name  = volume.value.name
+                  secret_name  = volume.key
                 }
               }
             }
@@ -182,7 +182,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                 name = volume.key
                 empty_dir {
                   medium     = volume.value.medium
-                  size_limit = volume.value.size_limit
+                  size_limit = volume.value.sizeLimit
                 }
               }
             }
@@ -245,7 +245,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                             scheme = init_container.value.preStop.httpGet.scheme
 
                             dynamic "http_header" {
-                              for_each = init_container.value.preStop.httpGet.http_header
+                              for_each = init_container.value.preStop.httpGet.header
                               content {
                                 name  = http_header.key
                                 value = http_header.value
@@ -282,7 +282,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                             scheme = init_container.value.postStart.httpGet.scheme
 
                             dynamic "http_header" {
-                              for_each = init_container.value.postStart.httpGet.http_header
+                              for_each = init_container.value.postStart.httpGet.header
                               content {
                                 name  = http_header.key
                                 value = http_header.value
@@ -375,7 +375,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   for_each = var.applicationConfig.externalSecretVolumes
                   content {
                     mount_path = volume_mount.value.path
-                    name       = volume_mount.value.name
+                    name       = volume_mount.key
                   }
                 }
 
@@ -383,7 +383,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   for_each = var.applicationConfig.externalConfigVolumes
                   content {
                     mount_path = volume_mount.value.path
-                    name       = volume_mount.value.name
+                    name       = volume_mount.key
                   }
                 }
 
@@ -476,7 +476,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                             scheme = container.value.preStop.httpGet.scheme
 
                             dynamic "http_header" {
-                              for_each = container.value.preStop.httpGet.http_header
+                              for_each = container.value.preStop.httpGet.header
                               content {
                                 name  = http_header.key
                                 value = http_header.value
@@ -513,7 +513,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                             scheme = container.value.postStart.httpGet.scheme
 
                             dynamic "http_header" {
-                              for_each = container.value.postStart.httpGet.http_header
+                              for_each = container.value.postStart.httpGet.header
                               content {
                                 name  = http_header.key
                                 value = http_header.value
@@ -616,7 +616,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   for_each = var.applicationConfig.externalSecretVolumes
                   content {
                     mount_path = volume_mount.value.path
-                    name       = volume_mount.value.name
+                    name       = volume_mount.key
                   }
                 }
 
@@ -624,7 +624,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   for_each = var.applicationConfig.externalConfigVolumes
                   content {
                     mount_path = volume_mount.value.path
-                    name       = volume_mount.value.name
+                    name       = volume_mount.key
                   }
                 }
 

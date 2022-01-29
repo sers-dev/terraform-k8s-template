@@ -1,17 +1,17 @@
 locals {
-  additionalAnnotations ={
+  additionalAnnotations = {
     podResourceType = {}
-    pod = {}
-    service = {}
+    pod             = {}
+    service         = {}
   }
   additionalLabels             = {}
   additionalNodeSelectorLabels = {}
   clusterName                  = "cluster.local"
 
-  namePrefix                   = ""
-  instance                     = "replaceMe"
-  namespace                    = "replaceMe"
-  owner                        = "replaceMe"
+  namePrefix = ""
+  instance   = "replaceMe"
+  namespace  = "replaceMe"
+  owner      = "replaceMe"
 
   tfWaitForRollout = false
 
