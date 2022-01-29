@@ -1,4 +1,4 @@
-## [1.0.1] - TBD
+## [1.0.1] - 2022-01-29
 
 - fix incorrect usage of variables in probes
 - renamed variables for consistency
@@ -6,7 +6,8 @@
   - rbac: old: `api_groups` new: `apiGroups`
 - add missing probes to statefulset
 - fix external config & secret volumes for daemonset, cronjob and job
+- order tf files
 
-## [1.0.0] - 24.01.2022
+## [1.0.0] - 2022-01-24
 - initial release
 - minimum Kubernetes Version required 1.19.X

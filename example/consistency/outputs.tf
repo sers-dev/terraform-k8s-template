@@ -1,7 +1,3 @@
-locals {
-  name = var.namePrefix == "" || var.namePrefix == null ? var.name : "${var.namePrefix}-${var.name}"
-}
-
 output "all" {
   value = {
     hard = {

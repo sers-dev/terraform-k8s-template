@@ -1,4 +1,6 @@
 locals {
+  name = var.namePrefix == "" || var.namePrefix == null ? var.name : "${var.namePrefix}-${var.name}"
+
   labels = merge({
     "app.kubernetes.io/tf-template-version" = var.tfTemplateVersion
     "app.kubernetes.io/tf-module-version"   = var.tfModuleVersion
@@ -14,16 +16,4 @@ locals {
     "kubernetes.io/os"   = var.operatingSystem
     "kubernetes.io/arch" = var.architecture
   }
-}
-
-output "matchLabels" {
-  value = merge(var.additionalLabels, local.matchLabels)
-}
-
-output "labels" {
-  value = merge(var.additionalLabels, local.labels)
-}
-
-output "nodeSelector" {
-  value = merge(var.additionalNodeSelectorLabels, local.nodeSelectorLabels)
 }
