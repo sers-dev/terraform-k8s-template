@@ -20,6 +20,9 @@ locals {
       #  externalTrafficPolicy = "Cluster"
       #  publishNotReadyAddresses = false
       #  sessionAffinity = "None"
+      #  remapPorts = {
+      #    "replaceMe" = 80
+      #  }
       #  annotations = merge({
       #
       #  }, var.additionalAnnotations.service)

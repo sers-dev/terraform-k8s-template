@@ -1,5 +1,5 @@
 locals {
-  podResourceType = "statefulset"
+  podResourceType = "deployment"
 }
 
 module "template" {

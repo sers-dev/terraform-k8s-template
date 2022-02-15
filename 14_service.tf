@@ -53,6 +53,7 @@ variable "service" {
       sessionAffinity          = string
       externalTrafficPolicy    = string
       annotations              = map(string)
+      remapPorts               = map(string)
     }))
   })
 }
@@ -142,7 +143,7 @@ resource "kubernetes_service_v1" "loadBalancerTcp" {
       content {
         name        = port.value.name
         target_port = port.value.name
-        port        = port.value.port
+        port        = lookup(var.service.loadBalancer[count.index].remapPorts, port.value.name, port.value.port)
         protocol    = port.value.protocol
       }
     }
@@ -174,7 +175,7 @@ resource "kubernetes_service_v1" "loadbalancerUdp" {
       content {
         name        = port.value.name
         target_port = port.value.name
-        port        = port.value.port
+        port        = lookup(var.service.loadBalancer[count.index].remapPorts, port.value.name, port.value.port)
         protocol    = port.value.protocol
       }
     }

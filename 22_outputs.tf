@@ -1,7 +1,3 @@
-output "version" {
-  value = "1.0.1"
-}
-
 output "configEnvName" {
   value = local.configEnvEnabled ? kubernetes_config_map_v1.configEnv.0.metadata.0.name : null
 }

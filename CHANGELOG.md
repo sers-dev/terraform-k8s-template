@@ -1,3 +1,7 @@
+## [1.1.0] - 2022-02-15
+
+- add `remapPorts` to `var.service.loadBalancer` to allow remapping of ports for load balancers
+
 ## [1.0.1] - 2022-01-29
 
 - fix incorrect usage of variables in probes
