@@ -52,6 +52,7 @@ variable "service" {
       publishNotReadyAddresses = bool
       sessionAffinity          = string
       externalTrafficPolicy    = string
+      sourceRanges             = list(string)
       annotations              = map(string)
       remapPorts               = map(string)
     }))
@@ -137,6 +138,7 @@ resource "kubernetes_service_v1" "loadBalancerTcp" {
     publish_not_ready_addresses = var.service.loadBalancer[count.index].publishNotReadyAddresses
     session_affinity            = var.service.loadBalancer[count.index].sessionAffinity
     external_traffic_policy     = var.service.loadBalancer[count.index].externalTrafficPolicy
+    load_balancer_source_ranges = var.service.loadBalancer[count.index].sourceRanges
 
     dynamic "port" {
       for_each = local.serviceLoadBalancerPortsTcp
@@ -169,6 +171,7 @@ resource "kubernetes_service_v1" "loadbalancerUdp" {
     publish_not_ready_addresses = var.service.loadBalancer[count.index].publishNotReadyAddresses
     session_affinity            = var.service.loadBalancer[count.index].sessionAffinity
     external_traffic_policy     = var.service.loadBalancer[count.index].externalTrafficPolicy
+    load_balancer_source_ranges = var.service.loadBalancer[count.index].sourceRanges
 
     dynamic "port" {
       for_each = local.serviceLoadBalancerPortsUdp

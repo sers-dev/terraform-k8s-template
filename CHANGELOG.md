@@ -1,3 +1,7 @@
+## [1.2.0] - 2022-02-16
+
+- add `sourceRanges` to `var.service.loadBalancer` to enable configuration of allowed sources
+
 ## [1.1.0] - 2022-02-15
 
 - add `remapPorts` to `var.service.loadBalancer` to allow remapping of ports for load balancers

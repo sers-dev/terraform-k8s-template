@@ -20,6 +20,8 @@ locals {
       #  externalTrafficPolicy = "Cluster"
       #  publishNotReadyAddresses = false
       #  sessionAffinity = "None"
+      #  sourceRanges = [
+      #  ]
       #  remapPorts = {
       #    "replaceMe" = 80
       #  }
