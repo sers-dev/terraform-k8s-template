@@ -45,7 +45,7 @@ locals {
           path    = "/"
           port    = "replaceMe"
           host    = ""
-          scheme  = "http"
+          scheme  = "HTTP"
           header  = {}
         }
         tcpSocket = {
@@ -63,7 +63,7 @@ locals {
           path    = "/"
           port    = "replaceMe"
           host    = ""
-          scheme  = "http"
+          scheme  = "HTTP"
           header  = {}
         }
         tcpSocket = {
@@ -89,7 +89,7 @@ locals {
             path    = "/"
             port    = "replaceMe"
             host    = ""
-            scheme  = "http"
+            scheme  = "HTTP"
             header  = {}
           }
           tcpSocket = {
@@ -114,7 +114,7 @@ locals {
             path    = "/"
             port    = "replaceMe"
             host    = ""
-            scheme  = "http"
+            scheme  = "HTTP"
             header  = {}
           }
           tcpSocket = {
@@ -139,7 +139,7 @@ locals {
             path    = "/"
             port    = "replaceMe"
             host    = ""
-            scheme  = "http"
+            scheme  = "HTTP"
             header  = {}
           }
           tcpSocket = {
