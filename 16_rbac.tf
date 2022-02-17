@@ -77,8 +77,8 @@ resource "kubernetes_role_v1" "role" {
   count = length(var.rbac.roleRules) > 0 ? 1 : 0
 
   metadata {
-    name   = var.consistency.hard.namespaceUniqueName
-    labels = var.consistency.soft.labels
+    name      = var.consistency.hard.namespaceUniqueName
+    labels    = var.consistency.soft.labels
     namespace = var.consistency.hard.namespace
   }
 

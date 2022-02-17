@@ -1,3 +1,7 @@
+## [1.2.2] - 2022-02-17
+
+- fix missing role namespace for rbac rules
+
 ## [1.2.1] - 2022-02-17
 
 - fix apiGroup value name
