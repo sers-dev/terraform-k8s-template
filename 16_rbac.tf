@@ -79,6 +79,7 @@ resource "kubernetes_role_v1" "role" {
   metadata {
     name   = var.consistency.hard.namespaceUniqueName
     labels = var.consistency.soft.labels
+    namespace = var.consistency.hard.namespace
   }
 
   dynamic "rule" {
