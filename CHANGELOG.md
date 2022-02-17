@@ -1,3 +1,8 @@
+## [1.2.1] - 2022-02-17
+
+- fix apiGroup value name
+- fix example HTTP scheme values
+
 ## [1.2.0] - 2022-02-16
 
 - add `sourceRanges` to `var.service.loadBalancer` to enable configuration of allowed sources

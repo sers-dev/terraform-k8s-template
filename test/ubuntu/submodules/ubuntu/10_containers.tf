@@ -37,7 +37,7 @@ locals {
           path    = "/"
           port    = "none"
           host    = ""
-          scheme  = "http"
+          scheme  = "HTTP"
           header  = {}
         }
         tcpSocket = {
@@ -55,7 +55,7 @@ locals {
           path    = "/"
           port    = "none"
           host    = ""
-          scheme  = "http"
+          scheme  = "HTTP"
           header  = {}
         }
         tcpSocket = {
@@ -81,7 +81,7 @@ locals {
             path    = "/"
             port    = "none"
             host    = ""
-            scheme  = "http"
+            scheme  = "HTTP"
             header  = {}
           }
           tcpSocket = {
@@ -106,7 +106,7 @@ locals {
             path    = "/"
             port    = "none"
             host    = ""
-            scheme  = "http"
+            scheme  = "HTTP"
             header  = {}
           }
           tcpSocket = {
@@ -131,7 +131,7 @@ locals {
             path    = "/"
             port    = "none"
             host    = ""
-            scheme  = "http"
+            scheme  = "HTTP"
             header  = {}
           }
           tcpSocket = {

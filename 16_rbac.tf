@@ -41,7 +41,7 @@ resource "kubernetes_cluster_role_v1" "clusterRole" {
   dynamic "rule" {
     for_each = var.rbac.clusterRoleRules
     content {
-      api_groups = rule.value.api_groups
+      api_groups = rule.value.apiGroups
       resources  = rule.value.resources
       verbs      = rule.value.verbs
     }
@@ -84,7 +84,7 @@ resource "kubernetes_role_v1" "role" {
   dynamic "rule" {
     for_each = var.rbac.roleRules
     content {
-      api_groups = rule.value.api_groups
+      api_groups = rule.value.apiGroups
       resources  = rule.value.resources
       verbs      = rule.value.verbs
     }
