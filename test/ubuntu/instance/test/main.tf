@@ -6,6 +6,7 @@ module "this" {
   clusterName                  = local.clusterName
   namePrefix                   = local.namePrefix
   instance                     = local.instance
+  createNamespace              = local.createNamespace
   namespace                    = local.namespace
   owner                        = local.owner
 

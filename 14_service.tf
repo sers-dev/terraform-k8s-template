@@ -33,6 +33,10 @@ locals {
     for k, v in local.serviceLoadBalancerPorts : v.protocol == "UDP" ? [v] : []
   ])
 
+
+  serviceName         = var.consistency.hard.namespaceUniqueName
+  headlessServiceName = "${var.consistency.hard.namespaceUniqueName}-headless"
+
 }
 
 variable "service" {
@@ -63,7 +67,7 @@ resource "kubernetes_service_v1" "clusterIp" {
   count = local.serviceClusterIpEnabled ? 1 : 0
 
   metadata {
-    name        = var.consistency.hard.namespaceUniqueName
+    name        = local.serviceName
     namespace   = var.consistency.hard.namespace
     labels      = var.consistency.soft.labels
     annotations = var.service.clusterIp.annotations
@@ -94,7 +98,7 @@ resource "kubernetes_service_v1" "headless" {
   count = local.serviceHeadlessEnabled ? 1 : 0
 
   metadata {
-    name        = "${var.consistency.hard.namespaceUniqueName}-headless"
+    name        = local.headlessServiceName
     namespace   = var.consistency.hard.namespace
     labels      = var.consistency.soft.labels
     annotations = var.service.headless.annotations

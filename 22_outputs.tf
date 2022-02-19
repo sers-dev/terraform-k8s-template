@@ -14,14 +14,22 @@ output "secretVolumeNames" {
   value = [for k, v in kubernetes_secret_v1.secretVolume : k]
 }
 
+#can't use `kubernetes_service_v1.clusterIp.0.metadata.0.name` because it will be incorrectly detected as loop if output is used in containers
 output "internalFqdn" {
-  value = local.serviceClusterIpEnabled ? "${kubernetes_service_v1.clusterIp.0.metadata.0.name}.${var.consistency.hard.namespace}.svc.${var.consistency.hard.clusterName}" : null
+  value = "${local.serviceName}.${var.consistency.hard.namespace}.svc.${var.consistency.hard.clusterName}"
 }
 
+#can't use `kubernetes_service_v1.clusterIp.0.metadata.0.name` because it will be detected as loop if output is used in containers
 output "serviceName" {
-  value = local.serviceClusterIpEnabled ? kubernetes_service_v1.clusterIp.0.metadata.0.name : null
+  value = local.serviceName
 }
 
+#can't use `kubernetes_service_v1.headless.0.metadata.0.name` because it will be detected as loop if output is used in containers
+output "headlessServiceName" {
+  value = local.headlessServiceName
+}
+
+#can't use `kubernetes_service_v1.headless.0.metadata.0.name` because it will be detected as loop if output is used in containers
 output "internalHeadlessFqdn" {
-  value = local.serviceHeadlessEnabled ? "${kubernetes_service_v1.headless.0.metadata.0.name}.${var.consistency.hard.namespace}.svc.${var.consistency.hard.clusterName}" : null
+  value = "${local.headlessServiceName}.${var.consistency.hard.namespace}.svc.${var.consistency.hard.clusterName}"
 }

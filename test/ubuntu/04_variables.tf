@@ -1,3 +1,4 @@
+variable "createNamespace" {}
 variable "additionalLabels" {}
 variable "additionalNodeSelectorLabels" {}
 variable "clusterName" {}

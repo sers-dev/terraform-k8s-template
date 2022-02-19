@@ -15,7 +15,7 @@ module "replaceMe" {
   clusterName                  = var.clusterName
   namePrefix                   = var.namePrefix
   instance                     = var.instance
-  namespace                    = var.namespace
+  namespace                    = local.namespace
   owner                        = var.owner
 
   persistence          = var.persistence

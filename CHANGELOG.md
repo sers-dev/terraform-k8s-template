@@ -1,3 +1,10 @@
+## [1.3.0] - 2022-02-19
+
+- fix missing role_binding namespace for rbac rules
+- add option to create namespace
+- add `resourceNames` to rbac rules 
+- adjust outputs for `service`, so that they can be used in `containers`
+
 ## [1.2.2] - 2022-02-17
 
 - fix missing role namespace for rbac rules

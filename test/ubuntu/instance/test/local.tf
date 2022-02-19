@@ -8,10 +8,11 @@ locals {
   additionalNodeSelectorLabels = {}
   clusterName                  = "cluster.local"
 
-  namePrefix = ""
-  instance   = "test"
-  namespace  = "default"
-  owner      = "foobar"
+  namePrefix      = ""
+  instance        = "test"
+  createNamespace = false
+  namespace       = "default"
+  owner           = "foobar"
 
   tfWaitForRollout = false
 

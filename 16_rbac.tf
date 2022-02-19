@@ -41,9 +41,10 @@ resource "kubernetes_cluster_role_v1" "clusterRole" {
   dynamic "rule" {
     for_each = var.rbac.clusterRoleRules
     content {
-      api_groups = rule.value.apiGroups
-      resources  = rule.value.resources
-      verbs      = rule.value.verbs
+      api_groups     = rule.value.apiGroups
+      resources      = rule.value.resources
+      verbs          = rule.value.verbs
+      resource_names = rule.value.resourceNames
     }
   }
 
@@ -55,8 +56,9 @@ resource "kubernetes_role_binding_v1" "roleBinding" {
   count = length(var.rbac.roleRules) > 0 ? 1 : 0
 
   metadata {
-    name   = var.consistency.hard.namespaceUniqueName
-    labels = var.consistency.soft.labels
+    name      = var.consistency.hard.namespaceUniqueName
+    namespace = var.consistency.hard.namespace
+    labels    = var.consistency.soft.labels
   }
 
   role_ref {
@@ -85,9 +87,10 @@ resource "kubernetes_role_v1" "role" {
   dynamic "rule" {
     for_each = var.rbac.roleRules
     content {
-      api_groups = rule.value.apiGroups
-      resources  = rule.value.resources
-      verbs      = rule.value.verbs
+      api_groups     = rule.value.apiGroups
+      resources      = rule.value.resources
+      verbs          = rule.value.verbs
+      resource_names = rule.value.resourceNames
     }
   }
 
