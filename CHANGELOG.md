@@ -1,3 +1,8 @@
+## [1.4.0] - 2022-06-05
+
+- remove `wait_for_load_balancer` from ingress resource, as it will never finish if no load balancer is created for the resource
+- added `nonResourceUrls` to rbac variables
+
 ## [1.3.0] - 2022-02-19
 
 - fix missing role_binding namespace for rbac rules

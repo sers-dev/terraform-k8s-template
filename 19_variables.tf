@@ -31,16 +31,18 @@ variable "rbac" {
   description = "K8S permissions"
   type = object({
     clusterRoleRules = list(object({
-      apiGroups     = list(string)
-      resources     = list(string)
-      verbs         = list(string)
-      resourceNames = list(string)
+      apiGroups       = list(string)
+      resources       = list(string)
+      verbs           = list(string)
+      resourceNames   = list(string)
+      nonResourceUrls = list(string)
     }))
     roleRules = list(object({
-      apiGroups     = list(string)
-      resources     = list(string)
-      verbs         = list(string)
-      resourceNames = list(string)
+      apiGroups       = list(string)
+      resources       = list(string)
+      verbs           = list(string)
+      resourceNames   = list(string)
+      nonResourceUrls = list(string)
     }))
   })
 }
