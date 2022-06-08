@@ -92,7 +92,6 @@ resource "kubernetes_role_v1" "role" {
       resources         = rule.value.resources
       verbs             = rule.value.verbs
       resource_names    = rule.value.resourceNames
-      non_resource_urls = rule.value.nonResourceUrls
     }
   }
 

@@ -15,7 +15,6 @@ locals {
       #  resources       = [""]
       #  verbs           = [""]
       #  resourceNames   = []
-      #  nonResourceUrls = []
       #},
     ]
   }
