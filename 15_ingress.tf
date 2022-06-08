@@ -9,7 +9,6 @@ locals {
 
 resource "kubernetes_ingress_v1" "ingress" {
   for_each               = local.ingressEnabled ? var.ingress : {}
-  wait_for_load_balancer = var.tfWaitForRollout
 
   metadata {
     name        = "${var.consistency.hard.namespaceUniqueName}-${each.key}"
