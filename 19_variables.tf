@@ -42,7 +42,6 @@ variable "rbac" {
       resources       = list(string)
       verbs           = list(string)
       resourceNames   = list(string)
-      nonResourceUrls = list(string)
     }))
   })
 }
