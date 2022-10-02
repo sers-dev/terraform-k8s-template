@@ -1,3 +1,8 @@
+## [1.5.0] - 2022-10-02
+
+- `statefulset` will now automatically trigger a rolling restart when config is changed based on `triggerRollingUpdate` configuration
+
+
 ## [1.4.0] - 2022-06-05
 
 - remove `wait_for_load_balancer` from ingress resource, as it will never finish if no load balancer is created for the resource
