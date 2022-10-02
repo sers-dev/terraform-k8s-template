@@ -8,7 +8,7 @@ locals {
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
-  for_each               = local.ingressEnabled ? var.ingress : {}
+  for_each = local.ingressEnabled ? var.ingress : {}
 
   metadata {
     name        = "${var.consistency.hard.namespaceUniqueName}-${each.key}"

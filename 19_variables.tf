@@ -38,10 +38,10 @@ variable "rbac" {
       nonResourceUrls = list(string)
     }))
     roleRules = list(object({
-      apiGroups       = list(string)
-      resources       = list(string)
-      verbs           = list(string)
-      resourceNames   = list(string)
+      apiGroups     = list(string)
+      resources     = list(string)
+      verbs         = list(string)
+      resourceNames = list(string)
     }))
   })
 }
