@@ -2,7 +2,6 @@
 
 - `statefulset` will now automatically trigger a rolling restart when config is changed based on `triggerRollingUpdate` configuration
 
-
 ## [1.4.0] - 2022-06-05
 
 - remove `wait_for_load_balancer` from ingress resource, as it will never finish if no load balancer is created for the resource
@@ -43,5 +42,6 @@
 - order tf files
 
 ## [1.0.0] - 2022-01-24
+
 - initial release
 - minimum Kubernetes Version required 1.19.X
