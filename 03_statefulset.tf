@@ -39,10 +39,12 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
 
     template {
       metadata {
-        name        = var.consistency.hard.namespaceUniqueName
-        labels      = var.consistency.soft.labels
-        annotations = var.podResourceTypeConfig.annotations
+        labels = merge(var.consistency.soft.labels, {
+          hash = sha1(base64encode(join("", concat(local.configVolumeHashData, local.configEnvHashData, local.secretVolumeHashData, local.secretEnvHashData, local.customCommandsHashData))))
+        })
+        annotations = var.podResourceTypeConfig.podAnnotations
       }
+
       spec {
         enable_service_links = false
         dynamic "host_aliases" {
@@ -603,6 +605,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
               }
             }
 
+
             dynamic "startup_probe" {
               for_each = container.value.probes.startup.httpGet.enabled || container.value.probes.startup.tcpSocket.enabled || container.value.probes.startup.exec.enabled ? [1] : []
               content {
@@ -804,7 +807,6 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
 
           }
         }
-
       }
     }
   }
