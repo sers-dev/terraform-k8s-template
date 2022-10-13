@@ -358,8 +358,8 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                 }
 
                 resources {
-                  requests = init_container.value.resources[var.infrastructureSize].requests
-                  limits   = init_container.value.resources[var.infrastructureSize].limits
+                  requests = init_container.value.resources[local.infrastructureSize].requests
+                  limits   = init_container.value.resources[local.infrastructureSize].limits
                 }
 
                 dynamic "volume_mount" {
@@ -599,8 +599,8 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                 }
 
                 resources {
-                  requests = container.value.resources[var.infrastructureSize].requests
-                  limits   = container.value.resources[var.infrastructureSize].limits
+                  requests = { for k,v in container.value.resources[local.infrastructureSize].requests: k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}"}
+                  limits = { for k,v in container.value.resources[local.infrastructureSize].limits: k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}"}
                 }
 
                 dynamic "volume_mount" {

@@ -1,3 +1,10 @@
+## [1.6.0] - 2022-10-13
+
+- `infrastructureSize` now supports additional optional dynamic resource multiplicator
+  - simply provide the size followed by `.X` where X us the multiplier that should be applied to requests and limits
+  - multiplicator is only applied to requests + limits of `containers` , but not `initContainers`
+
+
 ## [1.5.0] - 2022-10-02
 
 - `statefulset` will now automatically trigger a rolling restart when config is changed based on `triggerRollingUpdate` configuration

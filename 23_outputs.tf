@@ -33,3 +33,7 @@ output "headlessServiceName" {
 output "internalHeadlessFqdn" {
   value = "${local.headlessServiceName}.${var.consistency.hard.namespace}.svc.${var.consistency.hard.clusterName}"
 }
+
+output "infrastructureSize" {
+  value = local.infrastructureSize
+}
