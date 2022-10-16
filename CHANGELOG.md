@@ -1,3 +1,7 @@
+## [1.6.1] - 2022-11-16
+
+- fix regex for `infrastructureSize` to match strings like 'default.20' as well 
+
 ## [1.6.0] - 2022-10-13
 
 - `infrastructureSize` now supports additional optional dynamic resource multiplicator

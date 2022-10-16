@@ -1,6 +1,6 @@
 locals {
 
-  infrastructureSizeRegex = "^(.*?)\\.(\\d)"
+  infrastructureSizeRegex = "^(.*?)\\.(\\d)*"
   infrastructureSize = regex(local.infrastructureSizeRegex, "${var.infrastructureSize}.1")[0]
 
   // if no multiplier is provided it defaults to 1 because of the string concat
