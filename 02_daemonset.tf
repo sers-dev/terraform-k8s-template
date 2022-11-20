@@ -311,15 +311,6 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             dynamic "env_from" {
-              for_each = var.applicationConfig.externalSecretEnvs
-              content {
-                secret_ref {
-                  name = env_from.value
-                }
-              }
-            }
-
-            dynamic "env_from" {
               for_each = var.applicationConfig.externalConfigEnvs
               content {
                 config_map_ref {
@@ -329,10 +320,10 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             dynamic "env_from" {
-              for_each = local.secretEnvEnabled ? [1] : []
+              for_each = var.applicationConfig.externalSecretEnvs
               content {
                 secret_ref {
-                  name = kubernetes_secret_v1.secretEnv.0.metadata.0.name
+                  name = env_from.value
                 }
               }
             }
@@ -342,6 +333,15 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
               content {
                 config_map_ref {
                   name = kubernetes_config_map_v1.configEnv.0.metadata.0.name
+                }
+              }
+            }
+
+            dynamic "env_from" {
+              for_each = local.secretEnvEnabled ? [1] : []
+              content {
+                secret_ref {
+                  name = kubernetes_secret_v1.secretEnv.0.metadata.0.name
                 }
               }
             }
@@ -543,15 +543,6 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             dynamic "env_from" {
-              for_each = var.applicationConfig.externalSecretEnvs
-              content {
-                secret_ref {
-                  name = env_from.value
-                }
-              }
-            }
-
-            dynamic "env_from" {
               for_each = var.applicationConfig.externalConfigEnvs
               content {
                 config_map_ref {
@@ -561,10 +552,10 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             dynamic "env_from" {
-              for_each = local.secretEnvEnabled ? [1] : []
+              for_each = var.applicationConfig.externalSecretEnvs
               content {
                 secret_ref {
-                  name = kubernetes_secret_v1.secretEnv.0.metadata.0.name
+                  name = env_from.value
                 }
               }
             }
@@ -574,6 +565,15 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
               content {
                 config_map_ref {
                   name = kubernetes_config_map_v1.configEnv.0.metadata.0.name
+                }
+              }
+            }
+
+            dynamic "env_from" {
+              for_each = local.secretEnvEnabled ? [1] : []
+              content {
+                secret_ref {
+                  name = kubernetes_secret_v1.secretEnv.0.metadata.0.name
                 }
               }
             }

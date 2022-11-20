@@ -1,4 +1,13 @@
-## [1.6.1] - 2022-11-16
+## [1.7.0] - 2022-11-20
+
+- fix order of `env_from`
+  - order is now: `envFieldRef` < `externalConfigEnv` < `externalSecretEnv` < `configEnv` < `secretEnv`
+- added `18_outputs.tf` to example module
+  - includes outputs from `/23_outputs.tf` as default outputs
+- added `19_custom.tf` to example module
+
+
+## [1.6.1] - 2022-10-16
 
 - fix regex for `infrastructureSize` to match strings like 'default.20' as well 
 

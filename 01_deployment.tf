@@ -324,15 +324,6 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             dynamic "env_from" {
-              for_each = var.applicationConfig.externalSecretEnvs
-              content {
-                secret_ref {
-                  name = env_from.value
-                }
-              }
-            }
-
-            dynamic "env_from" {
               for_each = var.applicationConfig.externalConfigEnvs
               content {
                 config_map_ref {
@@ -342,10 +333,10 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             dynamic "env_from" {
-              for_each = local.secretEnvEnabled ? [1] : []
+              for_each = var.applicationConfig.externalSecretEnvs
               content {
                 secret_ref {
-                  name = kubernetes_secret_v1.secretEnv.0.metadata.0.name
+                  name = env_from.value
                 }
               }
             }
@@ -355,6 +346,15 @@ resource "kubernetes_deployment_v1" "deployment" {
               content {
                 config_map_ref {
                   name = kubernetes_config_map_v1.configEnv.0.metadata.0.name
+                }
+              }
+            }
+
+            dynamic "env_from" {
+              for_each = local.secretEnvEnabled ? [1] : []
+              content {
+                secret_ref {
+                  name = kubernetes_secret_v1.secretEnv.0.metadata.0.name
                 }
               }
             }
@@ -565,15 +565,6 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             dynamic "env_from" {
-              for_each = var.applicationConfig.externalSecretEnvs
-              content {
-                secret_ref {
-                  name = env_from.value
-                }
-              }
-            }
-
-            dynamic "env_from" {
               for_each = var.applicationConfig.externalConfigEnvs
               content {
                 config_map_ref {
@@ -583,10 +574,10 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             dynamic "env_from" {
-              for_each = local.secretEnvEnabled ? [1] : []
+              for_each = var.applicationConfig.externalSecretEnvs
               content {
                 secret_ref {
-                  name = kubernetes_secret_v1.secretEnv.0.metadata.0.name
+                  name = env_from.value
                 }
               }
             }
@@ -600,6 +591,14 @@ resource "kubernetes_deployment_v1" "deployment" {
               }
             }
 
+            dynamic "env_from" {
+              for_each = local.secretEnvEnabled ? [1] : []
+              content {
+                secret_ref {
+                  name = kubernetes_secret_v1.secretEnv.0.metadata.0.name
+                }
+              }
+            }
 
             dynamic "startup_probe" {
               for_each = container.value.probes.startup.httpGet.enabled || container.value.probes.startup.tcpSocket.enabled || container.value.probes.startup.exec.enabled ? [1] : []
