@@ -709,8 +709,8 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             resources {
-              requests = { for k,v in container.value.resources[local.infrastructureSize].requests: k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}"}
-              limits = { for k,v in container.value.resources[local.infrastructureSize].limits: k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}"}
+              requests = { for k, v in container.value.resources[local.infrastructureSize].requests : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
+              limits   = { for k, v in container.value.resources[local.infrastructureSize].limits : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
             }
 
             dynamic "volume_mount" {

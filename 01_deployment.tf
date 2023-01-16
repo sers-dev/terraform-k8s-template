@@ -68,6 +68,17 @@ resource "kubernetes_deployment_v1" "deployment" {
         }
         share_process_namespace = var.hostConfig.shareProcessNamespace
 
+        dynamic "toleration" {
+          for_each = var.toleration
+          content {
+            effect = toleration.effect
+            key = toleration.key
+            operator = toleration.operator
+            toleration_seconds = toleration.tolerationSeconds
+            value = toleration.value
+          }
+        }
+
         dynamic "topology_spread_constraint" {
           for_each = var.topologySpread
           content {
@@ -730,8 +741,8 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             resources {
-              requests = { for k,v in container.value.resources[local.infrastructureSize].requests: k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}"}
-              limits = { for k,v in container.value.resources[local.infrastructureSize].limits: k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}"}
+              requests = { for k, v in container.value.resources[local.infrastructureSize].requests : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
+              limits   = { for k, v in container.value.resources[local.infrastructureSize].limits : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
             }
 
             dynamic "volume_mount" {
