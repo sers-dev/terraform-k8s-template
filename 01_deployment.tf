@@ -71,11 +71,11 @@ resource "kubernetes_deployment_v1" "deployment" {
         dynamic "toleration" {
           for_each = var.podResourceTypeConfig.toleration
           content {
-            effect             = toleration.effect
-            key                = toleration.key
-            operator           = toleration.operator
-            toleration_seconds = toleration.tolerationSeconds
-            value              = toleration.value
+            effect             = toleration.value.effect
+            key                = toleration.value.key
+            operator           = toleration.value.operator
+            toleration_seconds = toleration.value.tolerationSeconds
+            value              = toleration.value.value
           }
         }
 
