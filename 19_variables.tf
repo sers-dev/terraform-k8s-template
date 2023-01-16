@@ -170,6 +170,16 @@ variable "podResourceTypeConfig" {
       maxUnavailable = string
     })
 
+    toleration = {
+      type = list(object({
+        effect             = string
+        key                = string
+        operator           = string
+        toleration_seconds = string
+        value              = string
+      }))
+    }
+
     // cronjob only
     // min, hour, day of month, month, day of week
     schedule                   = string
@@ -192,16 +202,6 @@ variable "podResourceTypeConfig" {
 
 
   })
-}
-
-variable "toleration" {
-  type = list(object({
-    effect             = string
-    key                = string
-    operator           = string
-    toleration_seconds = string
-    value              = string
-  }))
 }
 
 variable "topologySpread" {

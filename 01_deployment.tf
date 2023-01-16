@@ -69,7 +69,7 @@ resource "kubernetes_deployment_v1" "deployment" {
         share_process_namespace = var.hostConfig.shareProcessNamespace
 
         dynamic "toleration" {
-          for_each = var.toleration
+          for_each = var.podResourceTypeConfig.toleration
           content {
             effect             = toleration.effect
             key                = toleration.key
