@@ -194,6 +194,16 @@ variable "podResourceTypeConfig" {
   })
 }
 
+variable "toleration" {
+  type = list(object({
+    effect             = string
+    key                = string
+    operator           = string
+    toleration_seconds = string
+    value              = string
+  }))
+}
+
 variable "topologySpread" {
   type = list(object({
     maxSkew           = string
