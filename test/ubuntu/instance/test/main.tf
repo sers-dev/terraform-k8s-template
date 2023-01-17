@@ -17,5 +17,6 @@ module "this" {
 
   additionalAnnotations = local.additionalAnnotations
   ingress               = local.ingress
+  toleration            = local.toleration
 }
 

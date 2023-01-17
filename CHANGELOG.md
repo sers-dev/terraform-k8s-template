@@ -1,3 +1,8 @@
+## [1.8.0] - 2022-11-20
+
+- added the option to define a toleration within the kubernetes_deployment_v1 resource
+- formatting
+
 ## [1.7.0] - 2022-11-20
 
 - fix order of `env_from`
