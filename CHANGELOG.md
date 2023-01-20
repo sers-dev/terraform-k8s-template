@@ -14,7 +14,7 @@
 
 ## [1.6.1] - 2022-10-16
 
-- fix regex for `infrastructureSize` to match strings like 'default.20' as well 
+- fix regex for `infrastructureSize` to match strings like 'default.20' as well
 
 ## [1.6.0] - 2022-10-13
 
