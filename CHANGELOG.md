@@ -1,6 +1,6 @@
 ## [1.8.0] - 2022-11-20
 
-- added the option to define a toleration within the kubernetes_deployment_v1 resource
+- added the option to define a toleration within the kubernetes_deployment_v1 and kubernetes_daemon_set_v1 resources
 - formatting
 
 ## [1.7.0] - 2022-11-20
