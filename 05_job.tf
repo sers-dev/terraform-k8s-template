@@ -58,6 +58,17 @@ resource "kubernetes_job_v1" "job" {
         }
         share_process_namespace = var.hostConfig.shareProcessNamespace
 
+        dynamic "toleration" {
+          for_each = var.podResourceTypeConfig.toleration
+          content {
+            effect             = toleration.value.effect
+            key                = toleration.value.key
+            operator           = toleration.value.operator
+            toleration_seconds = toleration.value.tolerationSeconds
+            value              = toleration.value.value
+          }
+        }
+
         dynamic "topology_spread_constraint" {
           for_each = var.topologySpread
           content {
