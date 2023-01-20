@@ -41,7 +41,6 @@ variable "ingress" {
 
 variable "toleration" {
   description = "setting a toleration to assign deployment to a specific tainted node"
-  default     = []
   type = list(object({
     effect            = optional(string)
     key               = optional(string)
