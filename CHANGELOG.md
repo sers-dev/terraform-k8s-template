@@ -1,3 +1,8 @@
+## [1.8.0] - 2022-11-20
+
+- added the option to define a toleration resources
+- formatting
+
 ## [1.7.0] - 2022-11-20
 
 - fix order of `env_from`
@@ -9,7 +14,7 @@
 
 ## [1.6.1] - 2022-10-16
 
-- fix regex for `infrastructureSize` to match strings like 'default.20' as well 
+- fix regex for `infrastructureSize` to match strings like 'default.20' as well
 
 ## [1.6.0] - 2022-10-13
 
@@ -31,7 +36,7 @@
 
 - fix missing role_binding namespace for rbac rules
 - add option to create namespace
-- add `resourceNames` to rbac rules 
+- add `resourceNames` to rbac rules
 - adjust outputs for `service`, so that they can be used in `containers`
 
 ## [1.2.2] - 2022-02-17

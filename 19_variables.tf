@@ -170,6 +170,14 @@ variable "podResourceTypeConfig" {
       maxUnavailable = string
     })
 
+    toleration = map(object({
+      effect            = optional(string)
+      key               = optional(string)
+      operator          = optional(string)
+      tolerationSeconds = optional(string)
+      value             = optional(string)
+    }))
+
     // cronjob only
     // min, hour, day of month, month, day of week
     schedule                   = string
