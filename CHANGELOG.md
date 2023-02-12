@@ -1,3 +1,7 @@
+## [1.8.0] - 2022-02-12
+
+- ingress tls config now configurable through `var.ingress.tlsEnabled`
+
 ## [1.7.0] - 2022-11-20
 
 - fix order of `env_from`

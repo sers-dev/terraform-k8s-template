@@ -32,6 +32,7 @@ variable "additionalAnnotations" {
 
 variable "ingress" {
   type = map(object({
+    tlsEnabled       = bool
     ingressClassName = string
     annotations      = map(string)
     fqdns            = list(string)

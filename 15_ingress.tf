@@ -61,7 +61,7 @@ resource "kubernetes_ingress_v1" "ingress" {
     }
 
     dynamic "tls" {
-      for_each = each.value.fqdns
+      for_each = each.value.tlsEnabled ? each.value.fqdns : []
       content {
         hosts       = [tls.value]
         secret_name = "tls-${tls.value}"

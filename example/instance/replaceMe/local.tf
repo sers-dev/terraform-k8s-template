@@ -32,6 +32,7 @@ locals {
 
   ingress = {
     replaceMe = {
+      tlsEnabled       = true
       ingressClassName = "replaceMe"
       annotations = {
 
