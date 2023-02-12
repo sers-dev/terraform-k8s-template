@@ -27,8 +27,8 @@ module "ubuntu" {
   operatingSystem = var.operatingSystem
   image           = var.ubuntuImage
 
-
   additionalAnnotations = var.additionalAnnotations
   ingress               = var.ingress
+  toleration            = var.toleration
 }
 

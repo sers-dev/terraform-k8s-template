@@ -29,7 +29,10 @@ locals {
 
   ]
 
-
   ingress = {
   }
+
+  toleration = {
+  }
+
 }

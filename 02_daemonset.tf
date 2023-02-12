@@ -65,6 +65,17 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
         }
         share_process_namespace = var.hostConfig.shareProcessNamespace
 
+        dynamic "toleration" {
+          for_each = var.podResourceTypeConfig.toleration
+          content {
+            effect             = toleration.value.effect
+            key                = toleration.value.key
+            operator           = toleration.value.operator
+            toleration_seconds = toleration.value.tolerationSeconds
+            value              = toleration.value.value
+          }
+        }
+
         dynamic "topology_spread_constraint" {
           for_each = var.topologySpread
           content {
@@ -709,8 +720,8 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             resources {
-              requests = { for k,v in container.value.resources[local.infrastructureSize].requests: k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}"}
-              limits = { for k,v in container.value.resources[local.infrastructureSize].limits: k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}"}
+              requests = { for k, v in container.value.resources[local.infrastructureSize].requests : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
+              limits   = { for k, v in container.value.resources[local.infrastructureSize].limits : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
             }
 
             dynamic "volume_mount" {
