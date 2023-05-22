@@ -557,6 +557,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                     name           = port.value.name
                     protocol       = port.value.protocol
                     container_port = port.value.port
+                    host_port      = var.hostConfig.hostNetwork ? port.value.port : null
                   }
                 }
 

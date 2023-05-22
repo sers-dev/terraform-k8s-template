@@ -559,6 +559,7 @@ resource "kubernetes_deployment_v1" "deployment" {
                 name           = port.value.name
                 protocol       = port.value.protocol
                 container_port = port.value.port
+                host_port      = var.hostConfig.hostNetwork ? port.value.port : null
               }
             }
 

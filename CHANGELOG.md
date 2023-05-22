@@ -1,8 +1,13 @@
-## [1.9.0] - 2022-02-12
+## [1.10.0] - 2023-05-22
+
+- hostNetwork = true now also sets hostPort 
+  - this ensures that subsequent terraform runs do not show any diff, because it'd try to set hostPort to `null`
+
+## [1.9.0] - 2023-02-20
 
 - ingress tls config now configurable through `var.ingress.tlsEnabled`
 
-## [1.8.0] - 2022-11-20
+## [1.8.0] - 2023-01-23
 
 - added the option to define a toleration resources
 - formatting

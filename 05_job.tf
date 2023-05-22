@@ -530,6 +530,7 @@ resource "kubernetes_job_v1" "job" {
                 name           = port.value.name
                 protocol       = port.value.protocol
                 container_port = port.value.port
+                host_port      = var.hostConfig.hostNetwork ? port.value.port : null
               }
             }
 
