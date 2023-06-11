@@ -1,5 +1,5 @@
 variable "ubuntuImage" {
-  default = "ubuntu:21.04"
+  default = "docker.io/ubuntu:22.04"
 }
 
 module "ubuntu" {

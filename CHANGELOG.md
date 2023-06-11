@@ -1,3 +1,7 @@
+## [1.11.0] - 2023-06-11
+
+- port now supports `hostIp` if `hostNetwork == true`
+
 ## [1.10.0] - 2023-05-22
 
 - hostNetwork = true now also sets hostPort 

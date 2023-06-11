@@ -25,6 +25,7 @@ variable "containers" {
 
     ports = list(object({
       name           = string
+      hostIp        = string
       port           = string
       protocol       = string
       serviceTypes   = list(string)

@@ -535,6 +535,7 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
               for_each = container.value.ports
               content {
                 name           = port.value.name
+                host_ip        = var.hostConfig.hostNetwork ? port.value.hostIp : null
                 protocol       = port.value.protocol
                 container_port = port.value.port
                 host_port      = var.hostConfig.hostNetwork ? port.value.port : null

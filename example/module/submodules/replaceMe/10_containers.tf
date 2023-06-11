@@ -28,6 +28,7 @@ locals {
       ports = [
         #{
         #  port           = 8080
+        #  host_ip        = null
         #  name           = "replaceMe"
         #  protocol       = "TCP"
         #  ingressEnabled = true
