@@ -46,11 +46,13 @@ variable "service" {
       publishNotReadyAddresses = bool
       sessionAffinity          = string
       annotations              = map(string)
+      remapPorts               = map(string)
     })
     headless = object({
       publishNotReadyAddresses = bool
       sessionAffinity          = string
       annotations              = map(string)
+      remapPorts               = map(string)
     })
     loadBalancer = list(object({
       publishNotReadyAddresses = bool
@@ -84,7 +86,7 @@ resource "kubernetes_service_v1" "clusterIp" {
       content {
         name        = port.value.name
         target_port = port.value.name
-        port        = port.value.port
+        port        = lookup(var.service.clusterIp.remapPorts, port.value.name, port.value.port)
         protocol    = port.value.protocol
       }
     }
@@ -115,7 +117,7 @@ resource "kubernetes_service_v1" "headless" {
       content {
         name        = port.value.name
         target_port = port.value.name
-        port        = port.value.port
+        port        = lookup(var.service.headless.remapPorts, port.value.name, port.value.port)
         protocol    = port.value.protocol
       }
     }

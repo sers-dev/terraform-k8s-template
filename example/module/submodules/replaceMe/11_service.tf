@@ -7,6 +7,7 @@ locals {
       annotations = merge({
 
       }, var.additionalAnnotations.service)
+      remapPorts = {}
     }
     headless = {
       publishNotReadyAddresses = false
@@ -14,6 +15,7 @@ locals {
       annotations = merge({
 
       }, var.additionalAnnotations.service)
+      remapPorts = {}
     }
     loadBalancer = [
       #{

@@ -1,3 +1,7 @@
+## [1.12.0] - 2023-06-12
+
+- add `remapPorts` to `var.service.clusterIp` and `var.service.headless` to allow remapping of ports for all service types
+
 ## [1.11.0] - 2023-06-11
 
 - port now supports `hostIp` if `hostNetwork == true`
