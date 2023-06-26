@@ -45,13 +45,27 @@ variable "ingress" {
   }))
 }
 
-variable "toleration" {
-  description = "setting a toleration to assign deployment to a specific tainted node"
-  type = map(object({
-    effect            = optional(string)
-    key               = optional(string)
-    operator          = optional(string)
-    tolerationSeconds = optional(string)
-    value             = optional(string)
-  }))
+variable "ca" {
+  type = object({
+    crt       = string
+    key       = string
+  })
+  description = "Certificate Authority to use for self signed Certs. `null` will auto-generate a CA if required."
+}
+
+variable "tlsConfig" {
+  type = object({
+    enableSelfSignedIngress = bool
+    rsaBits = string
+    earlyRenewalHours = string
+    validityPeriodHours = string
+  })
+}
+
+variable "forceDisableCRDs" {
+  type = bool
+}
+
+variable "forceDisableWebhooks" {
+  type = bool
 }

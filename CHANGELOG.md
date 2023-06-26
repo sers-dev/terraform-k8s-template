@@ -1,3 +1,15 @@
+## [2.0.0] - 2023-??-??
+
+Please be aware that this is a major release. If the LoadBalancer change is handled properly you will not face downtime when upgrading.
+
+- Breaking Change: LoadBalancer no longer split between TCP and UDP, as a result naming changes will occur
+  - please ensure to first create new resources and switch dns before deleting the old resources
+- renamed `podResourceTypeConfig.toleration` to `podResourceTypeConfig.tolerations` to properly follow naming scheme
+- example module changes:
+  - renamed a few files for better ordering
+  - added self signed tls option
+  - added `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` and `CustomResourceDefinitions`
+
 ## [1.12.0] - 2023-06-12
 
 - add `remapPorts` to `var.service.clusterIp` and `var.service.headless` to allow remapping of ports for all service types

@@ -44,3 +44,28 @@ variable "ingress" {
     overridePaths    = list(string)
   }))
 }
+
+variable "ca" {
+  type = object({
+    crt       = string
+    key       = string
+  })
+  description = "Certificate Authority to use for self signed Certs. `null` will auto-generate a CA if required."
+}
+
+variable "tlsConfig" {
+  type = object({
+    enableSelfSignedIngress = bool
+    rsaBits = string
+    earlyRenewalHours = string
+    validityPeriodHours = string
+  })
+}
+
+variable "forceDisableCRDs" {
+  type = bool
+}
+
+variable "forceDisableWebhooks" {
+  type = bool
+}

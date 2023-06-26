@@ -74,7 +74,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
         share_process_namespace = var.hostConfig.shareProcessNamespace
 
         dynamic "toleration" {
-          for_each = var.podResourceTypeConfig.toleration
+          for_each = var.podResourceTypeConfig.tolerations
           content {
             effect             = toleration.value.effect
             key                = toleration.value.key

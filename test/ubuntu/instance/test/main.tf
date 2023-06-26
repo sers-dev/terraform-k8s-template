@@ -16,7 +16,12 @@ module "this" {
   tfWaitForRollout     = local.tfWaitForRollout
 
   additionalAnnotations = local.additionalAnnotations
-  ingress               = local.ingress
-  toleration            = local.toleration
+
+  ingress   = local.ingress
+  ca        = local.ca
+  tlsConfig = local.tlsConfig
+
+  forceDisableCRDs     = local.forceDisableCRDs
+  forceDisableWebhooks = local.forceDisableWebhooks
 }
 

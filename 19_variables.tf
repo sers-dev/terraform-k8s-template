@@ -170,7 +170,7 @@ variable "podResourceTypeConfig" {
       maxUnavailable = string
     })
 
-    toleration = map(object({
+    tolerations = map(object({
       effect            = optional(string)
       key               = optional(string)
       operator          = optional(string)

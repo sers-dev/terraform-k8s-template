@@ -3,7 +3,7 @@ output "configEnvName" {
 }
 
 output "configVolumeNames" {
-  value = [for k, v in kubernetes_config_map_v1.configVolume : k]
+  value = {for k, v in kubernetes_config_map_v1.configVolume : k => v.metadata.0.name }
 }
 
 output "secretEnvName" {
@@ -11,7 +11,7 @@ output "secretEnvName" {
 }
 
 output "secretVolumeNames" {
-  value = [for k, v in kubernetes_secret_v1.secretVolume : k]
+  value = {for k, v in kubernetes_secret_v1.secretVolume : k => v.metadata.0.name }
 }
 
 #can't use `kubernetes_service_v1.clusterIp.0.metadata.0.name` because it will be incorrectly detected as loop if output is used in containers
@@ -36,4 +36,12 @@ output "internalHeadlessFqdn" {
 
 output "infrastructureSize" {
   value = local.infrastructureSize
+}
+
+output "loadBalancerServiceNames" {
+  value = [for k in range(0, length(var.service.loadBalancer)) : "${local.serviceName}-${k}" ]
+}
+
+output "ingressEnabled" {
+  value = local.ingressEnabled
 }

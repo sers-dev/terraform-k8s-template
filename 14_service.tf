@@ -9,6 +9,8 @@ locals {
   serviceLoadBalancerUdpRequired = length(local.serviceLoadBalancerPortsUdp) > 0
   serviceLoadBalancerUdpEnabled  = local.serviceLoadBalancerUdpRequired && length(var.service.loadBalancer) > 0
 
+  serviceLoadBalancerEnabled = local.serviceLoadBalancerTcpEnabled || local.serviceLoadBalancerUdpEnabled
+
   ports = flatten([
     for k, v in var.containers : v.ports
   ])
@@ -55,12 +57,13 @@ variable "service" {
       remapPorts               = map(string)
     })
     loadBalancer = list(object({
-      publishNotReadyAddresses = bool
-      sessionAffinity          = string
-      externalTrafficPolicy    = string
-      sourceRanges             = list(string)
-      annotations              = map(string)
-      remapPorts               = map(string)
+      publishNotReadyAddresses      = bool
+      allocateLoadBalancerNodePorts = bool
+      sessionAffinity               = string
+      externalTrafficPolicy         = string
+      sourceRanges                  = list(string)
+      annotations                   = map(string)
+      remapPorts                    = map(string)
     }))
   })
 }
@@ -127,24 +130,25 @@ resource "kubernetes_service_v1" "headless" {
 
 }
 
-resource "kubernetes_service_v1" "loadBalancerTcp" {
-  count = local.serviceLoadBalancerTcpEnabled ? length(var.service.loadBalancer) : 0
+resource "kubernetes_service_v1" "loadBalancer" {
+  count = local.serviceLoadBalancerEnabled ? length(var.service.loadBalancer) : 0
 
   wait_for_load_balancer = var.tfWaitForRollout
 
   metadata {
-    name        = "${var.consistency.hard.namespaceUniqueName}-tcp-${count.index}"
+    name        = "${local.serviceName}-${count.index}"
     namespace   = var.consistency.hard.namespace
     labels      = var.consistency.soft.labels
     annotations = var.service.loadBalancer[count.index].annotations
   }
 
   spec {
-    type                        = "LoadBalancer"
-    publish_not_ready_addresses = var.service.loadBalancer[count.index].publishNotReadyAddresses
-    session_affinity            = var.service.loadBalancer[count.index].sessionAffinity
-    external_traffic_policy     = var.service.loadBalancer[count.index].externalTrafficPolicy
-    load_balancer_source_ranges = var.service.loadBalancer[count.index].sourceRanges
+    type                              = "LoadBalancer"
+    publish_not_ready_addresses       = var.service.loadBalancer[count.index].publishNotReadyAddresses
+    allocate_load_balancer_node_ports = var.service.loadBalancer[count.index].allocateLoadBalancerNodePorts
+    session_affinity                  = var.service.loadBalancer[count.index].sessionAffinity
+    external_traffic_policy           = var.service.loadBalancer[count.index].externalTrafficPolicy
+    load_balancer_source_ranges       = var.service.loadBalancer[count.index].sourceRanges
 
     dynamic "port" {
       for_each = local.serviceLoadBalancerPortsTcp
@@ -155,29 +159,6 @@ resource "kubernetes_service_v1" "loadBalancerTcp" {
         protocol    = port.value.protocol
       }
     }
-
-    selector = var.consistency.soft.matchLabels
-  }
-}
-
-resource "kubernetes_service_v1" "loadbalancerUdp" {
-  count = local.serviceLoadBalancerUdpEnabled ? length(var.service.loadBalancer) : 0
-
-  wait_for_load_balancer = var.tfWaitForRollout
-
-  metadata {
-    name        = "${var.consistency.hard.namespaceUniqueName}-udp-${count.index}"
-    namespace   = var.consistency.hard.namespace
-    labels      = var.consistency.soft.labels
-    annotations = var.service.loadBalancer[count.index].annotations
-  }
-
-  spec {
-    type                        = "LoadBalancer"
-    publish_not_ready_addresses = var.service.loadBalancer[count.index].publishNotReadyAddresses
-    session_affinity            = var.service.loadBalancer[count.index].sessionAffinity
-    external_traffic_policy     = var.service.loadBalancer[count.index].externalTrafficPolicy
-    load_balancer_source_ranges = var.service.loadBalancer[count.index].sourceRanges
 
     dynamic "port" {
       for_each = local.serviceLoadBalancerPortsUdp

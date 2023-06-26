@@ -30,7 +30,7 @@ locals {
     ttlSecondsAfterFinished = null
     completions             = null
 
-    toleration = var.toleration
+    tolerations = {}
   }
 
 }
