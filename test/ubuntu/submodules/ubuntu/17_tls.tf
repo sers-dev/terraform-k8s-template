@@ -22,7 +22,7 @@ locals {
 }
 
 module "tls" {
-  source = "git::https://github.com/sers-dev/terraform-easy-tls.git?ref=tags/1.0.0"
+  source = "git::https://github.com/sers-dev/terraform-easy-tls.git?ref=tags/1.0.1"
 
   count = local.enableTerraformTls ? 1 : 0
 
@@ -39,7 +39,7 @@ module "tls" {
 }
 
 module "ingressCa" {
-  source = "git::https://github.com/sers-dev/terraform-easy-tls.git?ref=tags/1.0.0"
+  source = "git::https://github.com/sers-dev/terraform-easy-tls.git?ref=tags/1.0.1"
 
   count = local.enableTerraformIngressTls && var.ca == null ? 1 : 0
 
@@ -52,7 +52,7 @@ module "ingressCa" {
 }
 
 module "ingressTls" {
-  source = "git::https://github.com/sers-dev/terraform-easy-tls.git?ref=tags/1.0.0"
+  source = "git::https://github.com/sers-dev/terraform-easy-tls.git?ref=tags/1.0.1"
 
   for_each = local.enableTerraformIngressTls ? zipmap(local.tlsIngress, local.tlsIngress) : {}
 
