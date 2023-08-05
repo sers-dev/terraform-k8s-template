@@ -9,9 +9,10 @@ locals {
     }
     hostPath = {
       #"tmp" = {
-      #  hostPath = "/tmp"
-      #  path = "/tmp"
-      #  type = ""
+      #  hostPath    = "/tmp"
+      #  path        = "/tmp"
+      #  propagation = string
+      #  type        = ""
       #}
     }
   }

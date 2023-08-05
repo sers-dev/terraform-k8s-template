@@ -1,9 +1,9 @@
 locals {
   persistence = merge(var.persistence, {
-    enablePersistence = false,
+    enablePersistence = true,
     mounts = [
       {
-        containerPath = "/replaceMe",
+        containerPath = "/tmp/",
         volumePath    = null
       },
     ]

@@ -9,6 +9,10 @@ Please be aware that this is a major release. If the LoadBalancer change is hand
   - renamed a few files for better ordering
   - added self signed tls option
   - added `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` and `CustomResourceDefinitions`
+- fix init container field_ref config
+- allow config of propagation for host mounts
+- external secrets and configmaps are now optional
+- rework rbac variable to support yamldecode 
 
 ## [1.12.0] - 2023-06-12
 

@@ -34,14 +34,14 @@ variable "rbac" {
       apiGroups       = list(string)
       resources       = list(string)
       verbs           = list(string)
-      resourceNames   = list(string)
-      nonResourceUrls = list(string)
+      resourceNames   = optional(list(string), [])
+      nonResourceUrls = optional(list(string), [])
     }))
     roleRules = list(object({
       apiGroups     = list(string)
       resources     = list(string)
       verbs         = list(string)
-      resourceNames = list(string)
+      resourceNames = optional(list(string), [])
     }))
   })
 }
@@ -73,8 +73,9 @@ variable "podResourceType" {
       "statefulset",
       "job",
       "cronjob",
+      "none"
     ], var.podResourceType)
-    error_message = "Must be one of \"deployment\", \"daemonset\", \"statefulset\", \"job\", \"cronjob\"."
+    error_message = "Must be one of \"deployment\", \"daemonset\", \"statefulset\", \"job\", \"cronjob\", \"none\"."
   }
 }
 
@@ -220,9 +221,10 @@ variable "volumes" {
       sizeLimit = string
     }))
     hostPath = map(object({
-      hostPath = string
-      path     = string
-      type     = string
+      hostPath    = string
+      path        = string
+      type        = string
+      propagation = string
     }))
   })
 }
