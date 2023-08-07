@@ -118,7 +118,7 @@ variable "applicationConfig" {
       path        = string
       data        = map(string)
       binaryData  = map(string)
-      enableSubpathMount = optional(bool, true)
+      enableSubpathMount = optional(bool, false)
     }))
   })
 }
