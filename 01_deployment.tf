@@ -799,14 +799,6 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.secretVolumes
-              content {
-                mount_path = volume_mount.value.path
-                name       = kubernetes_secret_v1.secretVolume[volume_mount.key].metadata.0.name
-              }
-            }
-
-            dynamic "volume_mount" {
               for_each = local.secretVolumeMounts
               content {
                 mount_path = volume_mount.value.path
