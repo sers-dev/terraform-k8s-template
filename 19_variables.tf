@@ -111,12 +111,14 @@ variable "applicationConfig" {
       path        = string
       data        = map(string)
       binaryData  = map(string)
+      enableSubpathMount = optional(bool, false)
     }))
     secretVolumes = map(object({
       defaultMode = string
       path        = string
       data        = map(string)
       binaryData  = map(string)
+      enableSubpathMount = optional(bool, true)
     }))
   })
 }

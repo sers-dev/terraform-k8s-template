@@ -13,6 +13,8 @@ Please be aware that this is a major release. If the LoadBalancer change is hand
 - allow config of propagation for host mounts
 - external secrets and configmaps are now optional
 - rework rbac variable to support yamldecode 
+- added `applicationConfig.configVolumes.enableSubpathMount` and `applicationConfig.secretVolumes.enableSubpathMount` to allow mounting all files of volume individually through subpath config
+
 
 ## [1.12.0] - 2023-06-12
 

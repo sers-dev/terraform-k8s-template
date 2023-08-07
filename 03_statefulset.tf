@@ -411,7 +411,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.secretVolumes
+              for_each = local.secretVolumeMounts
               content {
                 mount_path = volume_mount.value.path
                 name       = kubernetes_secret_v1.secretVolume[volume_mount.key].metadata.0.name
@@ -419,10 +419,28 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.configVolumes
+              for_each = local.secretVolumeSubpathMounts
+              content {
+                mount_path = volume_mount.value.path
+                name       = kubernetes_secret_v1.secretVolume[volume_mount.value.key].metadata.0.name
+                sub_path = volume_mount.value.file
+              }
+            }
+
+            dynamic "volume_mount" {
+              for_each = local.configVolumeMounts
               content {
                 mount_path = volume_mount.value.path
                 name       = kubernetes_config_map_v1.configVolume[volume_mount.key].metadata.0.name
+              }
+            }
+
+            dynamic "volume_mount" {
+              for_each = local.configVolumeSubpathMounts
+              content {
+                mount_path = volume_mount.value.path
+                name       = kubernetes_config_map_v1.configVolume[volume_mount.value.key].metadata.0.name
+                sub_path = volume_mount.value.file
               }
             }
 
@@ -786,7 +804,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.secretVolumes
+              for_each = local.secretVolumeMounts
               content {
                 mount_path = volume_mount.value.path
                 name       = kubernetes_secret_v1.secretVolume[volume_mount.key].metadata.0.name
@@ -794,10 +812,28 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.configVolumes
+              for_each = local.secretVolumeSubpathMounts
+              content {
+                mount_path = volume_mount.value.path
+                name       = kubernetes_secret_v1.secretVolume[volume_mount.value.key].metadata.0.name
+                sub_path = volume_mount.value.file
+              }
+            }
+
+            dynamic "volume_mount" {
+              for_each = local.configVolumeMounts
               content {
                 mount_path = volume_mount.value.path
                 name       = kubernetes_config_map_v1.configVolume[volume_mount.key].metadata.0.name
+              }
+            }
+
+            dynamic "volume_mount" {
+              for_each = local.configVolumeSubpathMounts
+              content {
+                mount_path = volume_mount.value.path
+                name       = kubernetes_config_map_v1.configVolume[volume_mount.value.key].metadata.0.name
+                sub_path = volume_mount.value.file
               }
             }
 
