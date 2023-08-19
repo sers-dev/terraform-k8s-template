@@ -43,29 +43,31 @@ locals {
 
 variable "service" {
   type = object({
-    clusterIp = object({
-      ip                       = string
-      publishNotReadyAddresses = bool
-      sessionAffinity          = string
-      annotations              = map(string)
-      remapPorts               = map(string)
-    })
-    headless = object({
-      publishNotReadyAddresses = bool
-      sessionAffinity          = string
-      annotations              = map(string)
-      remapPorts               = map(string)
-    })
-    loadBalancer = list(object({
-      publishNotReadyAddresses      = bool
-      allocateLoadBalancerNodePorts = bool
-      sessionAffinity               = string
-      externalTrafficPolicy         = string
-      sourceRanges                  = list(string)
-      annotations                   = map(string)
-      remapPorts                    = map(string)
-    }))
+    clusterIp = optional(object({
+      ip                       = optional(string, null)
+      publishNotReadyAddresses = optional(bool, false)
+      sessionAffinity          = optional(string, "None")
+      annotations              = optional(map(string), {})
+      remapPorts               = optional(map(string), {})
+    }), {})
+    headless = optional(object({
+      publishNotReadyAddresses = optional(bool, false)
+      sessionAffinity          = optional(string, "None")
+      annotations              = optional(map(string), {})
+      remapPorts               = optional(map(string), {})
+    }), {})
+    loadBalancer = optional(list(object({
+      publishNotReadyAddresses      = optional(bool, false)
+      allocateLoadBalancerNodePorts = optional(bool, false)
+      sessionAffinity               = optional(string, "None")
+      externalTrafficPolicy         = optional(string, "Cluster")
+      sourceRanges                  = optional(list(string), [])
+      annotations                   = optional(map(string), {})
+      remapPorts                    = optional(map(string), {})
+    })), [])
   })
+
+  default = {}
 }
 
 resource "kubernetes_service_v1" "clusterIp" {

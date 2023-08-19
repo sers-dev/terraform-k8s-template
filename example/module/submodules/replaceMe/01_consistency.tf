@@ -1,5 +1,5 @@
 module "consistency" {
-  source = "../../../../../../modules/consistency"
+  source = "../../../consistency"
 
 
 

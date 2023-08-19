@@ -14,7 +14,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
     starting_deadline_seconds     = var.podResourceTypeConfig.deadlineSeconds
     successful_jobs_history_limit = var.podResourceTypeConfig.successfulJobsHistoryLimit
     suspend                       = var.podResourceTypeConfig.suspend
-    schedule                      = var.podResourceTypeConfig.schedule
+    schedule                      = local.schedule
 
 
     job_template {

@@ -82,74 +82,80 @@ variable "podResourceType" {
 
 variable "applicationConfig" {
   type = object({
-    triggerRollingUpdate = object({
-      configEnv      = bool
-      configVolumes  = bool
-      secretEnv      = bool
-      secretVolumes  = bool
-      customCommands = bool
-    })
+    triggerRollingUpdate = optional(object({
+      configEnv      = optional(bool, true)
+      configVolumes  = optional(bool, true)
+      secretEnv      = optional(bool, true)
+      secretVolumes  = optional(bool, true)
+      customCommands = optional(bool, true)
+    }), {})
 
-    externalConfigEnvs = list(string)
-    externalSecretEnvs = list(string)
-    externalConfigVolumes = map(object({
-      defaultMode = string
+    externalConfigEnvs = optional(list(string), [])
+    externalSecretEnvs = optional(list(string), [])
+    externalConfigVolumes = optional(map(object({
+      defaultMode = optional(string, 0755)
       path        = string
-    }))
-    externalSecretVolumes = map(object({
-      defaultMode = string
+    })), {})
+    externalSecretVolumes = optional(map(object({
+      defaultMode = optional(string, 0600)
       path        = string
-    }))
-    configEnv = map(string)
-    secretEnv = map(string)
-    envFieldRef = map(object({
-      version = string
+    })), {})
+    configEnv = optional(map(string), {})
+    secretEnv = optional(map(string), {})
+    envFieldRef = optional(map(object({
+      version = optional(string, "v1")
       field   = string
-    }))
-    configVolumes = map(object({
-      defaultMode = string
+    })), {})
+    configVolumes = optional(map(object({
+      defaultMode = optional(string, 0644)
       path        = string
-      data        = map(string)
-      binaryData  = map(string)
+      data        = optional(map(string), {})
+      binaryData  = optional(map(string), {})
       enableSubpathMount = optional(bool, false)
-    }))
-    secretVolumes = map(object({
-      defaultMode = string
+    })), {})
+    secretVolumes = optional(map(object({
+      defaultMode = optional(string, 0644)
       path        = string
-      data        = map(string)
-      binaryData  = map(string)
+      data        = optional(map(string), {})
+      binaryData  = optional(map(string), {})
       enableSubpathMount = optional(bool, false)
-    }))
+    })), {})
   })
+
+  default = {}
 }
 variable "dns" {
   type = object({
-    policy = string
-    config = object({
-      nameservers = list(string)
-      searches    = list(string)
-      options     = map(string)
-    })
+    policy = optional(string, "ClusterFirst")
+    config = optional(object({
+      nameservers = optional(list(string), [])
+      searches    = optional(list(string), [])
+      options     = optional(map(string), { "ndots" = "2"})
+    }), {})
   })
+
+  default = {}
 }
 
 variable "hostConfig" {
   type = object({
-    hostNetwork           = bool
-    hostIpc               = bool
-    hostPid               = bool
-    hostname              = string
-    shareProcessNamespace = bool
-    hostAliases           = map(list(string))
-    securityContext = object({
-      fsGroup            = string
-      runAsGroup         = string
-      runAsNonRoot       = bool
-      runAsUser          = string
-      supplementalGroups = list(string)
-    })
+    hostNetwork           = optional(bool, false)
+    hostIpc               = optional(bool, false)
+    hostPid               = optional(bool, false)
+    hostname              = optional(string, "")
+    shareProcessNamespace = optional(bool, false)
+    hostAliases           = optional(map(list(string)), {})
+    securityContext = optional(object({
+      fsGroup            = optional(string, null)
+      runAsGroup         = optional(string, null)
+      runAsNonRoot       = optional(bool, null)
+      runAsUser          = optional(string, null)
+      supplementalGroups = optional(list(string), [])
+    }), {})
 
   })
+
+  default = {}
 }
 locals {
   #this check is required because the current version of the k8s provider (2.6.1) would always display a change if no value is set within the securityContext
@@ -163,42 +169,42 @@ variable "podResourceTypeConfig" {
 
     minReplicas                   = string
     maxReplicas                   = string
-    terminationGracePeriodSeconds = string
-    minReadySeconds               = string
-    deadlineSeconds               = string
-    revisionHistoryLimit          = string
+    terminationGracePeriodSeconds = optional(string, 10)
+    minReadySeconds               = optional(string, 0)
+    deadlineSeconds               = optional(string, 120)
+    revisionHistoryLimit          = optional(string, 3)
 
-    rollingUpdate = object({
-      maxSurge       = string
-      maxUnavailable = string
-    })
+    rollingUpdate = optional(object({
+      maxSurge       = optional(string, "25%")
+      maxUnavailable = optional(string, "25%")
+    }), {})
 
-    tolerations = map(object({
+    tolerations = optional(map(object({
       effect            = optional(string)
       key               = optional(string)
       operator          = optional(string)
       tolerationSeconds = optional(string)
       value             = optional(string)
-    }))
+    })), {})
 
     // cronjob only
     // min, hour, day of month, month, day of week
-    schedule                   = string
-    concurrencyPolicy          = string
-    failedJobsHistoryLimit     = string
-    successfulJobsHistoryLimit = string
-    suspend                    = bool
+    schedule                   = optional(string, null)
+    concurrencyPolicy          = optional(string, "Forbid")
+    failedJobsHistoryLimit     = optional(string, 3)
+    successfulJobsHistoryLimit = optional(string, 3)
+    suspend                    = optional(bool, false)
 
     // job only
-    backoffLimit            = string
-    ttlSecondsAfterFinished = string
-    completions             = string
+    backoffLimit            = optional(string, 6)
+    ttlSecondsAfterFinished = optional(string, null)
+    completions             = optional(string, null)
 
 
 
 
-    priorityClassName = string
-    restartPolicy     = string
+    priorityClassName = optional(string, "")
+    restartPolicy     = optional(string, "Always")
 
 
 
@@ -207,77 +213,83 @@ variable "podResourceTypeConfig" {
 
 variable "topologySpread" {
   type = list(object({
-    maxSkew           = string
+    maxSkew           = optional(string, 1)
     topologyKey       = string
-    whenUnsatisfiable = string
+    whenUnsatisfiable = optional(string, "DoNotSchedule")
   }))
+  default = [{
+    topologyKey = "kubernetes.io/hostname"
+  }]
 }
 
 
 
 variable "volumes" {
   type = object({
-    emptyDir = map(object({
+    emptyDir = optional(map(object({
       path      = string
       medium    = string
       sizeLimit = string
-    }))
-    hostPath = map(object({
+    })), {})
+    hostPath = optional(map(object({
       hostPath    = string
       path        = string
       type        = string
       propagation = string
-    }))
+    })), {})
   })
+
+  default = {}
 }
 
 variable "podDisruptionBudget" {
   type = object({
-    enabled      = bool
-    minAvailable = string
+    enabled      = optional(bool, false)
+    minAvailable = optional(string, 1)
   })
+  default = {}
 }
 
 variable "horizontalPodAutoscaler" {
   type = object({
     enabled = bool
-    metrics = list(object({
+    metrics = optional(list(object({
       type = string
       name = string
-      describedObject = object({
+      describedObject = optional(object({
         apiVersion = string
         kind       = string
-      })
-      metric = object({
+      }), null)
+      metric = optional(object({
         matchLabels = map(string)
-      })
-      target = object({
-        type               = string
-        averageValue       = string
-        averageUtilization = string
-        value              = string
-      })
-    }))
-    behavior = object({
-      scaleDown = object({
-        stabilizationWindowSeconds = string
-        selectPolicy               = string
-        policies = list(object({
+      }), null)
+      target = optional(object({
+        type               = optional(string, "Utilization")
+        averageValue       = optional(string, 0)
+        averageUtilization = optional(string, 75)
+        value              = optional(string, null)
+      }), {})
+    })), [{ type = "Resource", name = "cpu"}])
+    behavior = optional(object({
+      scaleDown = optional(object({
+        stabilizationWindowSeconds = optional(string, 300)
+        selectPolicy               = optional(string, "Min")
+        policies = optional(list(object({
           periodSeconds = string
-          type          = string
+          type          = optional(string, "Percent")
           value         = string
-        }))
-      })
-      scaleUp = object({
-        stabilizationWindowSeconds = string
-        selectPolicy               = string
-        policies = list(object({
+        })), [{ periodSeconds = 60, value = "25"}])
+      }), {})
+      scaleUp = optional(object({
+        stabilizationWindowSeconds = optional(string, 300)
+        selectPolicy               = optional(string, "Max")
+        policies = optional(list(object({
           periodSeconds = string
-          type          = string
+          type          = optional(string, "Percent")
           value         = string
-        }))
-      })
-    })
+        })), [{ periodSeconds = 15, value = "100"}])
+      }), {})
+    }), {})
   })
 }
 
@@ -285,8 +297,8 @@ variable "ingress" {
   type = map(object({
     tlsEnabled       = bool
     ingressClassName = string
-    annotations      = map(string)
+    annotations      = optional(map(string), {})
     fqdns            = list(string)
-    overridePaths    = list(string)
+    overridePaths    = optional(list(string), [])
   }))
 }

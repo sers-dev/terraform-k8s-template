@@ -1,8 +1,4 @@
 locals {
   volumes = {
-    emptyDir = {
-    }
-    hostPath = {
-    }
   }
 }

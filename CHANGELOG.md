@@ -14,6 +14,9 @@ Please be aware that this is a major release. If the LoadBalancer change is hand
 - external secrets and configmaps are now optional
 - rework rbac variable to support yamldecode 
 - added `applicationConfig.configVolumes.enableSubpathMount` and `applicationConfig.secretVolumes.enableSubpathMount` to allow mounting all files of volume individually through subpath config
+- reduce module usage complexity by introducing `optional` fields for most variables and providing sane defaults
+  - check `./test/ubuntu/` to see simplifications
+  - check `./example/module/` to see all variables in use
 
 
 ## [1.12.0] - 2023-06-12
