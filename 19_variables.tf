@@ -143,7 +143,7 @@ variable "hostConfig" {
     hostIpc               = optional(bool, false)
     hostPid               = optional(bool, false)
     hostname              = optional(string, "")
-    shareProcessNamespace = optional(bool, false)
+    shareProcessNamespace = optional(bool, true)
     hostAliases           = optional(map(list(string)), {})
     securityContext = optional(object({
       fsGroup            = optional(string, null)
