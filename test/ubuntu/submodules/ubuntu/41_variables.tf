@@ -34,6 +34,7 @@ variable "ingress" {
   type = map(object({
     tlsEnabled       = bool
     ingressClassName = string
+    pathType         = string
     annotations      = map(string)
     fqdns            = list(string)
     overridePaths    = list(string)

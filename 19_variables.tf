@@ -297,6 +297,7 @@ variable "ingress" {
   type = map(object({
     tlsEnabled       = bool
     ingressClassName = string
+    pathType         = optional(string, "Prefix")
     annotations      = optional(map(string), {})
     fqdns            = list(string)
     overridePaths    = optional(list(string), [])

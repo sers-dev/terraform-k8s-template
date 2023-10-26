@@ -17,6 +17,7 @@ Please be aware that this is a major release. If the LoadBalancer change is hand
 - reduce module usage complexity by introducing `optional` fields for most variables and providing sane defaults
   - check `./test/ubuntu/` to see simplifications
   - check `./example/module/` to see all variables in use
+- allow configuration of ingress.pathType per ingress; defaults to `Prefix`
 
 
 ## [1.12.0] - 2023-06-12
