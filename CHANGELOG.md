@@ -1,4 +1,4 @@
-## [2.0.0] - 2023-??-??
+## [2.0.0] - 2023-10-23
 
 Please be aware that this is a major release. If the LoadBalancer change is handled properly you will not face downtime when upgrading.
 
