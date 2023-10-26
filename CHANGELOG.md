@@ -1,3 +1,25 @@
+## [2.0.0] - 2023-10-23
+
+Please be aware that this is a major release. If the LoadBalancer change is handled properly you will not face downtime when upgrading.
+
+- Breaking Change: LoadBalancer no longer split between TCP and UDP, as a result naming changes will occur
+  - please ensure to first create new resources and switch dns before deleting the old resources
+- renamed `podResourceTypeConfig.toleration` to `podResourceTypeConfig.tolerations` to properly follow naming scheme
+- example module changes:
+  - renamed a few files for better ordering
+  - added self signed tls option
+  - added `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` and `CustomResourceDefinitions`
+- fix init container field_ref config
+- allow config of propagation for host mounts
+- external secrets and configmaps are now optional
+- rework rbac variable to support yamldecode 
+- added `applicationConfig.configVolumes.enableSubpathMount` and `applicationConfig.secretVolumes.enableSubpathMount` to allow mounting all files of volume individually through subpath config
+- reduce module usage complexity by introducing `optional` fields for most variables and providing sane defaults
+  - check `./test/ubuntu/` to see simplifications
+  - check `./example/module/` to see all variables in use
+- allow configuration of ingress.pathType per ingress; defaults to `Prefix`
+
+
 ## [1.12.0] - 2023-06-12
 
 - add `remapPorts` to `var.service.clusterIp` and `var.service.headless` to allow remapping of ports for all service types

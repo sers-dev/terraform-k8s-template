@@ -1,4 +1,6 @@
 resource "kubernetes_service_account_v1" "serviceAccount" {
+  count = var.podResourceType != "none" ? 1 : 0
+
   metadata {
     name      = var.consistency.hard.namespaceUniqueName
     namespace = var.consistency.hard.namespace
@@ -25,7 +27,7 @@ resource "kubernetes_cluster_role_binding_v1" "clusterRoleBinding" {
   subject {
     kind      = "ServiceAccount"
     api_group = ""
-    name      = kubernetes_service_account_v1.serviceAccount.metadata.0.name
+    name      = kubernetes_service_account_v1.serviceAccount.0.metadata.0.name
     namespace = var.consistency.hard.namespace
   }
 }
@@ -71,7 +73,7 @@ resource "kubernetes_role_binding_v1" "roleBinding" {
   subject {
     kind      = "ServiceAccount"
     api_group = ""
-    name      = kubernetes_service_account_v1.serviceAccount.metadata.0.name
+    name      = kubernetes_service_account_v1.serviceAccount.0.metadata.0.name
     namespace = var.consistency.hard.namespace
   }
 }

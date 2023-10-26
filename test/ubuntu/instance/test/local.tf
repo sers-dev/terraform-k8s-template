@@ -5,7 +5,9 @@ locals {
     service         = {}
   }
   additionalLabels             = {}
-  additionalNodeSelectorLabels = {}
+  additionalNodeSelectorLabels = {
+    datacenter-provider = "dick"
+  }
   clusterName                  = "cluster.local"
 
   namePrefix      = ""
@@ -19,10 +21,10 @@ locals {
   infrastructureSize = "S"
 
   persistence = {
-    forceDisable       = true
+    forceDisable       = false
     storageAccessModes = ["ReadWriteOnce"]
-    storageClassName   = "none"
-    storageSize        = ""
+    storageClassName   = "longhorn"
+    storageSize        = "1Gi"
   }
 
   imagePullSecretNames = [
@@ -32,7 +34,14 @@ locals {
   ingress = {
   }
 
-  toleration = {
+  ca = null
+  tlsConfig = {
+    enableSelfSignedIngress = false
+    rsaBits = 4096
+    earlyRenewalHours = 87600 # 10 years
+    validityPeriodHours = 876000 # 100 years
   }
+  forceDisableCRDs     = false
+  forceDisableWebhooks = false
 
 }

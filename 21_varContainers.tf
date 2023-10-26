@@ -1,168 +1,168 @@
 variable "containers" {
   type = map(object({
     image                    = string
-    imagePullPolicy          = string
-    stdin                    = bool
-    stdinOnce                = bool
-    terminationMessagePath   = string
-    terminationMessagePolicy = string
-    tty                      = bool
-    workingDir               = string
-    securityContext = object({
-      allowPrivilegeEscalation = bool
-      capabilities = object({
-        add  = list(string)
-        drop = list(string)
-      })
-      readOnlyRootFilesystem = bool
-      privileged             = bool
-      runAsGroup             = string
-      runAsNonRoot           = bool
-      runAsUser              = string
-    })
+    imagePullPolicy          = optional(string, "IfNotPresent")
+    stdin                    = optional(bool, false)
+    stdinOnce                = optional(bool, false)
+    terminationMessagePath   = optional(string, null)
+    terminationMessagePolicy = optional(string, null)
+    tty                      = optional(bool, false)
+    workingDir               = optional(string, "")
+    securityContext = optional(object({
+      allowPrivilegeEscalation = optional(bool, false)
+      capabilities = optional(object({
+        add  = optional(list(string), null)
+        drop = optional(list(string), null)
+      }), {})
+      readOnlyRootFilesystem = optional(bool, false)
+      privileged             = optional(bool, false)
+      runAsGroup             = optional(string, null)
+      runAsNonRoot           = optional(bool, null)
+      runAsUser              = optional(string, null)
+    }), {})
 
-    args = list(string)
+    args = optional(list(string), [])
 
-    ports = list(object({
+    ports = optional(list(object({
       name           = string
-      hostIp        = string
+      hostIp         = optional(string, null)
       port           = string
-      protocol       = string
-      serviceTypes   = list(string)
-      ingressEnabled = bool
-    }))
+      protocol       = optional(string, "TCP")
+      serviceTypes   = optional(list(string), ["ClusterIP"])
+      ingressEnabled = optional(bool, false)
+    })), [])
 
 
-    resources = map(object({
-      requests = object({
-        cpu    = string
-        memory = string
-      })
-      limits = object({
-        cpu    = string
-        memory = string
-      })
-    }))
+    resources = optional(map(object({
+      requests = optional(object({
+        cpu    = optional(string, "1m")
+        memory = optional(string, "1Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string, null)
+        memory = optional(string, null)
+      }), {})
+    })), { default = {}})
 
-    customCommand = object({
+    customCommand = optional(object({
       enabled = bool
       data    = string
-    })
+    }), { enabled = false, data = ""})
 
-    preStop = object({
-      exec = object({
+    preStop = optional(object({
+      exec = optional(object({
         enabled = bool
         command = list(string)
-      })
-      httpGet = object({
+      }), { enabled = false, command = []})
+      httpGet = optional(object({
         enabled = bool
-        path    = string
+        path    = optional(string, "/")
         port    = string
-        host    = string
-        scheme  = string
-        header  = map(string)
-      })
-      tcpSocket = object({
+        host    = optional(string, "")
+        scheme  = optional(string, "HTTP")
+        header  = optional(map(string), {})
+      }), { enabled = false, port = null})
+      tcpSocket = optional(object({
         enabled = bool
         port    = string
-      })
-    })
+      }), { enabled = false, port = null})
+    }), {})
 
-    postStart = object({
-      exec = object({
+    postStart = optional(object({
+      exec = optional(object({
         enabled = bool
         command = list(string)
-      })
-      httpGet = object({
+      }), { enabled = false, command = []})
+      httpGet = optional(object({
         enabled = bool
-        path    = string
+        path    = optional(string, "/")
         port    = string
-        host    = string
-        scheme  = string
-        header  = map(string)
-      })
-      tcpSocket = object({
+        host    = optional(string, "")
+        scheme  = optional(string, "HTTP")
+        header  = optional(map(string), {})
+      }), { enabled = false, port = null})
+      tcpSocket = optional(object({
         enabled = bool
         port    = string
-      })
-    })
+      }), { enabled = false, port = null})
+    }), {})
 
-    probes = object({
-      startup = object({
-        initialDelaySeconds = string
-        successThreshold    = string
-        failureThreshold    = string
-        periodSeconds       = string
-        timeoutSeconds      = string
+    probes = optional(object({
+      startup = optional(object({
+        initialDelaySeconds = optional(string, 0)
+        successThreshold    = optional(string, 1)
+        failureThreshold    = optional(string, 60)
+        periodSeconds       = optional(string, 5)
+        timeoutSeconds      = optional(string, 2)
 
-        exec = object({
+        exec = optional(object({
           enabled = bool
           command = list(string)
-        })
-        httpGet = object({
+        }), { enabled = false, command = []})
+        httpGet = optional(object({
           enabled = bool
-          path    = string
+          path    = optional(string, "/")
           port    = string
-          host    = string
-          scheme  = string
-          header  = map(string)
-        })
-        tcpSocket = object({
+          host    = optional(string, "")
+          scheme  = optional(string, "HTTP")
+          header  = optional(map(string), {})
+        }), { enabled = false, port = null})
+        tcpSocket = optional(object({
           enabled = bool
           port    = string
-        })
-      })
+        }), { enabled = false, port = null})
+      }), {})
 
-      readiness = object({
-        initialDelaySeconds = string
-        successThreshold    = string
-        failureThreshold    = string
-        periodSeconds       = string
-        timeoutSeconds      = string
+      readiness = optional(object({
+        initialDelaySeconds = optional(string, 0)
+        successThreshold    = optional(string, 1)
+        failureThreshold    = optional(string, 3)
+        periodSeconds       = optional(string, 120)
+        timeoutSeconds      = optional(string, 3)
 
-        exec = object({
+        exec = optional(object({
           enabled = bool
           command = list(string)
-        })
-        httpGet = object({
+        }), { enabled = false, command = []})
+        httpGet = optional(object({
           enabled = bool
-          path    = string
+          path    = optional(string, "/")
           port    = string
-          host    = string
-          scheme  = string
-          header  = map(string)
-        })
-        tcpSocket = object({
+          host    = optional(string, "")
+          scheme  = optional(string, "HTTP")
+          header  = optional(map(string), {})
+        }), { enabled = false, port = null})
+        tcpSocket = optional(object({
           enabled = bool
           port    = string
-        })
-      })
+        }), { enabled = false, port = null})
+      }), {})
 
-      liveness = object({
-        initialDelaySeconds = string
-        successThreshold    = string
-        failureThreshold    = string
-        periodSeconds       = string
-        timeoutSeconds      = string
+      liveness = optional(object({
+        initialDelaySeconds = optional(string, 300)
+        successThreshold    = optional(string, 1)
+        failureThreshold    = optional(string, 3)
+        periodSeconds       = optional(string, 300)
+        timeoutSeconds      = optional(string, 3)
 
-        exec = object({
+        exec = optional(object({
           enabled = bool
           command = list(string)
-        })
-        httpGet = object({
+        }), { enabled = false, command = []})
+        httpGet = optional(object({
           enabled = bool
-          path    = string
+          path    = optional(string, "/")
           port    = string
-          host    = string
-          scheme  = string
-          header  = map(string)
-        })
-        tcpSocket = object({
+          host    = optional(string, "")
+          scheme  = optional(string, "HTTP")
+          header  = optional(map(string), {})
+        }), { enabled = false, port = null})
+        tcpSocket = optional(object({
           enabled = bool
           port    = string
-        })
-      })
-    })
+        }), { enabled = false, port = null})
+      }), {})
+    }), {})
 
 
   }))

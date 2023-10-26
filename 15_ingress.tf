@@ -33,6 +33,7 @@ resource "kubernetes_ingress_v1" "ingress" {
               }
             }
             path = "/"
+            path_type = each.value.pathType
           }
         }
       }
@@ -54,6 +55,7 @@ resource "kubernetes_ingress_v1" "ingress" {
                 }
               }
               path = path.value
+              path_type = each.value.pathType
             }
           }
         }

@@ -66,7 +66,7 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
         share_process_namespace = var.hostConfig.shareProcessNamespace
 
         dynamic "toleration" {
-          for_each = var.podResourceTypeConfig.toleration
+          for_each = var.podResourceTypeConfig.tolerations
           content {
             effect             = toleration.value.effect
             key                = toleration.value.key
@@ -88,7 +88,7 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
           }
         }
 
-        service_account_name             = kubernetes_service_account_v1.serviceAccount.metadata.0.name
+        service_account_name             = kubernetes_service_account_v1.serviceAccount.0.metadata.0.name
         automount_service_account_token  = true
         host_network                     = var.hostConfig.hostNetwork
         termination_grace_period_seconds = var.podResourceTypeConfig.terminationGracePeriodSeconds
@@ -124,6 +124,7 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
           content {
             name = volume.key
             config_map {
+              optional     = true
               default_mode = volume.value.defaultMode
               name         = volume.key
             }
@@ -136,6 +137,7 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
           content {
             name = volume.key
             secret {
+              optional     = true
               default_mode = volume.value.defaultMode
               secret_name  = volume.key
             }
@@ -315,7 +317,8 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
                 name = env.key
                 value_from {
                   field_ref {
-                    field_path = env.value
+                    api_version = env.value.version
+                    field_path  = env.value.field
                   }
                 }
               }
@@ -325,7 +328,8 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
               for_each = var.applicationConfig.externalConfigEnvs
               content {
                 config_map_ref {
-                  name = env_from.value
+                  optional = true
+                  name     = env_from.value
                 }
               }
             }
@@ -334,7 +338,8 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
               for_each = var.applicationConfig.externalSecretEnvs
               content {
                 secret_ref {
-                  name = env_from.value
+                  optional = true
+                  name     = env_from.value
                 }
               }
             }
@@ -379,7 +384,7 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.secretVolumes
+              for_each = local.secretVolumeMounts
               content {
                 mount_path = volume_mount.value.path
                 name       = kubernetes_secret_v1.secretVolume[volume_mount.key].metadata.0.name
@@ -387,10 +392,28 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.configVolumes
+              for_each = local.secretVolumeSubpathMounts
+              content {
+                mount_path = volume_mount.value.path
+                name       = kubernetes_secret_v1.secretVolume[volume_mount.value.key].metadata.0.name
+                sub_path = volume_mount.value.file
+              }
+            }
+
+            dynamic "volume_mount" {
+              for_each = local.configVolumeMounts
               content {
                 mount_path = volume_mount.value.path
                 name       = kubernetes_config_map_v1.configVolume[volume_mount.key].metadata.0.name
+              }
+            }
+
+            dynamic "volume_mount" {
+              for_each = local.configVolumeSubpathMounts
+              content {
+                mount_path = volume_mount.value.path
+                name       = kubernetes_config_map_v1.configVolume[volume_mount.value.key].metadata.0.name
+                sub_path = volume_mount.value.file
               }
             }
 
@@ -405,8 +428,9 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             dynamic "volume_mount" {
               for_each = var.volumes.hostPath
               content {
-                mount_path = volume_mount.value.path
-                name       = volume_mount.key
+                mount_path        = volume_mount.value.path
+                mount_propagation = volume_mount.value.propagation
+                name              = volume_mount.key
               }
             }
 
@@ -559,7 +583,8 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
               for_each = var.applicationConfig.externalConfigEnvs
               content {
                 config_map_ref {
-                  name = env_from.value
+                  optional = true
+                  name     = env_from.value
                 }
               }
             }
@@ -568,7 +593,8 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
               for_each = var.applicationConfig.externalSecretEnvs
               content {
                 secret_ref {
-                  name = env_from.value
+                  optional = true
+                  name     = env_from.value
                 }
               }
             }
@@ -743,7 +769,7 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.secretVolumes
+              for_each = local.secretVolumeMounts
               content {
                 mount_path = volume_mount.value.path
                 name       = kubernetes_secret_v1.secretVolume[volume_mount.key].metadata.0.name
@@ -751,10 +777,28 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             }
 
             dynamic "volume_mount" {
-              for_each = var.applicationConfig.configVolumes
+              for_each = local.secretVolumeSubpathMounts
+              content {
+                mount_path = volume_mount.value.path
+                name       = kubernetes_secret_v1.secretVolume[volume_mount.value.key].metadata.0.name
+                sub_path = volume_mount.value.file
+              }
+            }
+
+            dynamic "volume_mount" {
+              for_each = local.configVolumeMounts
               content {
                 mount_path = volume_mount.value.path
                 name       = kubernetes_config_map_v1.configVolume[volume_mount.key].metadata.0.name
+              }
+            }
+
+            dynamic "volume_mount" {
+              for_each = local.configVolumeSubpathMounts
+              content {
+                mount_path = volume_mount.value.path
+                name       = kubernetes_config_map_v1.configVolume[volume_mount.value.key].metadata.0.name
+                sub_path = volume_mount.value.file
               }
             }
 
@@ -769,8 +813,9 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
             dynamic "volume_mount" {
               for_each = var.volumes.hostPath
               content {
-                mount_path = volume_mount.value.path
-                name       = volume_mount.key
+                mount_path        = volume_mount.value.path
+                mount_propagation = volume_mount.value.propagation
+                name              = volume_mount.key
               }
             }
 

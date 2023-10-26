@@ -1,26 +1,5 @@
 locals {
   applicationConfig = {
-    triggerRollingUpdate = {
-      configEnv      = true
-      configVolumes  = true
-      secretEnv      = true
-      secretVolumes  = true
-      customCommands = true
-    }
-
-    envFieldRef = {
-    }
-
-    externalConfigEnvs = [
-    ]
-    externalSecretEnvs = [
-    ]
-
-    externalConfigVolumes = {
-    }
-    externalSecretVolumes = {
-    }
-
     configEnv = {
       HELLO = "WORLD"
     }
@@ -37,8 +16,6 @@ locals {
 
     secretEnv = {
       FOO = "BAR"
-    }
-    secretVolumes = {
     }
   }
 }

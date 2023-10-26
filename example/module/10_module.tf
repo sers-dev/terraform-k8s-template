@@ -27,8 +27,13 @@ module "replaceMe" {
   operatingSystem = var.operatingSystem
   image           = var.replaceMeImage
 
-
   additionalAnnotations = var.additionalAnnotations
-  ingress               = var.ingress
+
+  ingress   = var.ingress
+  ca        = var.ca
+  tlsConfig = var.tlsConfig
+
+  forceDisableCRDs     = var.forceDisableCRDs
+  forceDisableWebhooks = var.forceDisableWebhooks
 }
 

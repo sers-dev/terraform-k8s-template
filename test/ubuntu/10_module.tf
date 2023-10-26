@@ -1,4 +1,4 @@
-variable "ubuntuImage" {
+variable "image" {
   default = "docker.io/ubuntu:22.04"
 }
 
@@ -25,10 +25,15 @@ module "ubuntu" {
 
   architecture    = var.architecture
   operatingSystem = var.operatingSystem
-  image           = var.ubuntuImage
+  image           = var.image
 
   additionalAnnotations = var.additionalAnnotations
-  ingress               = var.ingress
-  toleration            = var.toleration
+
+  ingress   = var.ingress
+  ca        = var.ca
+  tlsConfig = var.tlsConfig
+
+  forceDisableCRDs     = var.forceDisableCRDs
+  forceDisableWebhooks = var.forceDisableWebhooks
 }
 

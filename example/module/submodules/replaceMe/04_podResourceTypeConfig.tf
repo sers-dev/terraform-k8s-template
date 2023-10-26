@@ -29,6 +29,7 @@ locals {
     ttlSecondsAfterFinished = null
     completions             = null
 
+    tolerations = {}
   }
 
 }
