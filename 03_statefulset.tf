@@ -12,6 +12,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
   spec {
     service_name = kubernetes_service_v1.clusterIp.0.metadata.0.name
     replicas     = var.podResourceTypeConfig.minReplicas
+    pod_management_policy = var.podResourceTypeConfig.podManagementPolicy
 
     selector {
       match_labels = var.consistency.soft.matchLabels

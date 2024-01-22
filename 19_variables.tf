@@ -178,6 +178,7 @@ variable "podResourceTypeConfig" {
       maxSurge       = optional(string, "25%")
       maxUnavailable = optional(string, "25%")
     }), {})
+    podManagementPolicy = optional(string, "OrderedReady")
 
     tolerations = optional(map(object({
       effect            = optional(string)

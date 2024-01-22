@@ -13,6 +13,7 @@ locals {
       maxSurge       = "25%"
       maxUnavailable = "25%"
     }
+    podManagementPolicy = "OrderedReady"
 
     priorityClassName = ""
     restartPolicy     = "Always"
