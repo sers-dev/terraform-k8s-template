@@ -19,9 +19,10 @@ locals {
     }
     loadBalancer = [
       #{
-      #  externalTrafficPolicy = "Cluster"
+      #  forceNodePortType        = false
+      #  externalTrafficPolicy    = "Cluster"
       #  publishNotReadyAddresses = false
-      #  sessionAffinity = "None"
+      #  sessionAffinity          = "None"
       #  sourceRanges = [
       #  ]
       #  remapPorts = {

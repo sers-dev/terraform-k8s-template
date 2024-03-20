@@ -64,6 +64,7 @@ variable "service" {
       sourceRanges                  = optional(list(string), [])
       annotations                   = optional(map(string), {})
       remapPorts                    = optional(map(string), {})
+      forceNodePortType             = optional(bool, false)
     })), [])
   })
 
@@ -145,7 +146,7 @@ resource "kubernetes_service_v1" "loadBalancer" {
   }
 
   spec {
-    type                              = "LoadBalancer"
+    type                              = var.service.loadBalancer[count.index].forceNodePortType ? "NodePort" : "LoadBalancer"
     publish_not_ready_addresses       = var.service.loadBalancer[count.index].publishNotReadyAddresses
     allocate_load_balancer_node_ports = var.service.loadBalancer[count.index].allocateLoadBalancerNodePorts
     session_affinity                  = var.service.loadBalancer[count.index].sessionAffinity
