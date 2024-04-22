@@ -2,7 +2,7 @@ locals {
   horizontalPodAutoscalerEnabled = contains(["deployment", "statefulset"], var.podResourceType) ? var.podResourceTypeConfig.minReplicas < var.podResourceTypeConfig.maxReplicas ? var.horizontalPodAutoscaler.enabled : false : false
 }
 
-resource "kubernetes_horizontal_pod_autoscaler_v2beta2" "horizontalPodAutoscaler" {
+resource "kubernetes_horizontal_pod_autoscaler_v2" "horizontalPodAutoscaler" {
   count = local.horizontalPodAutoscalerEnabled ? 1 : 0
 
   metadata {
