@@ -1,3 +1,12 @@
+## [2.3.1] - 2024-05-21
+
+- fix kubernetes_horizontal_pod_autoscaler_v2 not working because of missing apiVersion config
+- adjust defaults for hpa
+
+## [2.3.0] - 2024-04-22
+
+- replace kubernetes_horizontal_pod_autoscaler_v2beta2 with kubernetes_horizontal_pod_autoscaler_v2
+
 ## [2.2.0] - 2024-03-20
 
 - added boolean `var.service.loadbalancer.forceNodePortType` to allow spawning lb service as type nodeport

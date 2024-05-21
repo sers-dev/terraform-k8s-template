@@ -266,29 +266,29 @@ variable "horizontalPodAutoscaler" {
       }), null)
       target = optional(object({
         type               = optional(string, "Utilization")
-        averageValue       = optional(string, 0)
-        averageUtilization = optional(string, 75)
+        averageValue       = optional(number, 0)
+        averageUtilization = optional(number, 75)
         value              = optional(string, null)
       }), {})
     })), [{ type = "Resource", name = "cpu"}])
     behavior = optional(object({
       scaleDown = optional(object({
-        stabilizationWindowSeconds = optional(string, 300)
+        stabilizationWindowSeconds = optional(number, 300)
         selectPolicy               = optional(string, "Min")
         policies = optional(list(object({
-          periodSeconds = string
+          periodSeconds = number
           type          = optional(string, "Percent")
-          value         = string
-        })), [{ periodSeconds = 60, value = "25"}])
+          value         = number
+        })), [{ periodSeconds = 60, value = 25}])
       }), {})
       scaleUp = optional(object({
-        stabilizationWindowSeconds = optional(string, 300)
+        stabilizationWindowSeconds = optional(number, 0)
         selectPolicy               = optional(string, "Max")
         policies = optional(list(object({
-          periodSeconds = string
+          periodSeconds = number
           type          = optional(string, "Percent")
-          value         = string
-        })), [{ periodSeconds = 15, value = "100"}])
+          value         = number
+        })), [{ periodSeconds = 15, value = 100}])
       }), {})
     }), {})
   })

@@ -18,6 +18,7 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "horizontalPodAutoscaler" {
     scale_target_ref {
       kind = var.podResourceType == "deployment" ? "Deployment" : "StatefulSet"
       name = var.podResourceType == "deployment" ? kubernetes_deployment_v1.deployment.0.metadata.0.name : kubernetes_stateful_set_v1.statefulset.0.metadata.0.name
+      api_version = "apps/v1"
     }
 
     dynamic "metric" {
@@ -40,8 +41,8 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "horizontalPodAutoscaler" {
             }
             target {
               type                = metric.value.target.type
-              average_value       = metric.value.target.averageValue
-              average_utilization = metric.value.target.averageUtilization
+              average_value       = metric.value.target.averageValue == 0 ? null : metric.value.target.averageValue
+              average_utilization = metric.value.target.averageUtilization == 0 ? null : metric.value.target.averageUtilization
               value               = metric.value.target.value
             }
           }
@@ -57,8 +58,8 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "horizontalPodAutoscaler" {
             }
             target {
               type                = metric.value.target.type
-              average_value       = metric.value.target.averageValue
-              average_utilization = metric.value.target.averageUtilization
+              average_value       = metric.value.target.averageValue == 0 ? null : metric.value.target.averageValue
+              average_utilization = metric.value.target.averageUtilization == 0 ? null : metric.value.target.averageUtilization
               value               = metric.value.target.value
             }
           }
@@ -69,8 +70,8 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "horizontalPodAutoscaler" {
             name = metric.value.name
             target {
               type                = metric.value.target.type
-              average_value       = metric.value.target.averageValue
-              average_utilization = metric.value.target.averageUtilization
+              average_value       = metric.value.target.averageValue == 0 ? null : metric.value.target.averageValue
+              average_utilization = metric.value.target.averageUtilization == 0 ? null : metric.value.target.averageUtilization
               value               = metric.value.target.value
             }
           }
@@ -86,8 +87,8 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "horizontalPodAutoscaler" {
             }
             target {
               type                = metric.value.target.type
-              average_value       = metric.value.target.averageValue
-              average_utilization = metric.value.target.averageUtilization
+              average_value       = metric.value.target.averageValue == 0 ? null : metric.value.target.averageValue
+              average_utilization = metric.value.target.averageUtilization == 0 ? null : metric.value.target.averageUtilization
               value               = metric.value.target.value
             }
           }
