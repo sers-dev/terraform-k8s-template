@@ -169,6 +169,10 @@ locals {
         runAsGroup             = null
         runAsNonRoot           = null
         runAsUser              = null
+
+        seccompProfile = {
+          type = "Unconfined"
+        }
       }
     }
   }

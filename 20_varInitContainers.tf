@@ -19,9 +19,9 @@ variable "initContainers" {
       runAsGroup             = optional(string, null)
       runAsNonRoot           = optional(bool, null)
       runAsUser              = optional(string, null)
-      seccomp_profile = optional(object({
-        localhost_profile = optional(string, null)
-        type              = optional(string, null)
+      seccompProfile = optional(object({
+        localhostProfile = optional(string, null)
+        type             = optional(string, null)
       }), {})
     }), {})
 

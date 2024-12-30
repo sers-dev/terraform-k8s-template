@@ -210,10 +210,10 @@ resource "kubernetes_job_v1" "job" {
               run_as_user               = init_container.value.securityContext.runAsUser
 
               dynamic "seccomp_profile" {
-                for_each = init_container.value.securityContext.seccomp_profile.type != null ? [init_container.value.securityContext.seccomp_profile] : []
+                for_each = init_container.value.securityContext.seccompProfile.type != null ? [init_container.value.securityContext.seccompProfile] : []
                 content {
-                  localhost_profile = init_container.value.securityContext.seccomp_profile.localhost_profile
-                  type              = init_container.value.securityContext.seccomp_profile.type
+                  localhost_profile = init_container.value.securityContext.seccompProfile.localhostProfile
+                  type              = init_container.value.securityContext.seccompProfile.type
                 }
               }
             }
@@ -463,10 +463,10 @@ resource "kubernetes_job_v1" "job" {
               run_as_user               = container.value.securityContext.runAsUser
 
               dynamic "seccomp_profile" {
-                for_each = container.value.securityContext.seccomp_profile.type != null ? [container.value.securityContext.seccomp_profile] : []
+                for_each = container.value.securityContext.seccompProfile.type != null ? [container.value.securityContext.seccompProfile] : []
                 content {
-                  localhost_profile = container.value.securityContext.seccomp_profile.localhost_profile
-                  type              = container.value.securityContext.seccomp_profile.type
+                  localhost_profile = container.value.securityContext.seccompProfile.localhostProfile
+                  type              = container.value.securityContext.seccompProfile.type
                 }
               }
             }

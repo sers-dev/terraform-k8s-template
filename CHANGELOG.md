@@ -1,6 +1,6 @@
 ## [2.4.0] - 2025-01-01
 
-- added seccomp_profile options for `var.containers` and `var.init_containers`
+- added seccompProfile options for `var.containers` and `var.init_containers`
 
 ## [2.3.1] - 2024-05-21
 
