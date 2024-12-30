@@ -226,6 +226,14 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   run_as_group              = init_container.value.securityContext.runAsGroup
                   run_as_non_root           = init_container.value.securityContext.runAsNonRoot
                   run_as_user               = init_container.value.securityContext.runAsUser
+
+                  dynamic "seccomp_profile" {
+                    for_each = init_container.value.securityContext.seccomp_profile.type != null ? [init_container.value.securityContext.seccomp_profile] : []
+                    content {
+                      localhost_profile = init_container.value.securityContext.seccomp_profile.localhost_profile
+                      type              = init_container.value.securityContext.seccomp_profile.type
+                    }
+                  }
                 }
                 stdin                      = init_container.value.stdin
                 stdin_once                 = init_container.value.stdinOnce
@@ -416,7 +424,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   content {
                     mount_path = volume_mount.value.path
                     name       = kubernetes_secret_v1.secretVolume[volume_mount.value.key].metadata.0.name
-                    sub_path = volume_mount.value.file
+                    sub_path   = volume_mount.value.file
                   }
                 }
 
@@ -433,7 +441,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   content {
                     mount_path = volume_mount.value.path
                     name       = kubernetes_config_map_v1.configVolume[volume_mount.value.key].metadata.0.name
-                    sub_path = volume_mount.value.file
+                    sub_path   = volume_mount.value.file
                   }
                 }
 
@@ -480,6 +488,14 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   run_as_group              = container.value.securityContext.runAsGroup
                   run_as_non_root           = container.value.securityContext.runAsNonRoot
                   run_as_user               = container.value.securityContext.runAsUser
+
+                  dynamic "seccomp_profile" {
+                    for_each = container.value.securityContext.seccomp_profile.type != null ? [container.value.securityContext.seccomp_profile] : []
+                    content {
+                      localhost_profile = container.value.securityContext.seccomp_profile.localhost_profile
+                      type              = container.value.securityContext.seccomp_profile.type
+                    }
+                  }
                 }
                 stdin                      = container.value.stdin
                 stdin_once                 = container.value.stdinOnce
@@ -680,7 +696,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   content {
                     mount_path = volume_mount.value.path
                     name       = kubernetes_secret_v1.secretVolume[volume_mount.value.key].metadata.0.name
-                    sub_path = volume_mount.value.file
+                    sub_path   = volume_mount.value.file
                   }
                 }
 
@@ -697,7 +713,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                   content {
                     mount_path = volume_mount.value.path
                     name       = kubernetes_config_map_v1.configVolume[volume_mount.value.key].metadata.0.name
-                    sub_path = volume_mount.value.file
+                    sub_path   = volume_mount.value.file
                   }
                 }
 
