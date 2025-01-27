@@ -19,6 +19,10 @@ variable "initContainers" {
       runAsGroup             = optional(string, null)
       runAsNonRoot           = optional(bool, null)
       runAsUser              = optional(string, null)
+      seccompProfile = optional(object({
+        localhostProfile = optional(string, null)
+        type             = optional(string, null)
+      }), {})
     }), {})
 
     args = optional(list(string), [])
@@ -32,18 +36,18 @@ variable "initContainers" {
         cpu    = optional(string, null)
         memory = optional(string, null)
       }), {})
-    })), { default = {}})
+    })), { default = {} })
 
     customCommand = optional(object({
       enabled = bool
       data    = string
-    }), { enabled = false, data = ""})
+    }), { enabled = false, data = "" })
 
     preStop = optional(object({
       exec = optional(object({
         enabled = bool
         command = list(string)
-      }), { enabled = false, command = []})
+      }), { enabled = false, command = [] })
       httpGet = optional(object({
         enabled = bool
         path    = optional(string, "/")
@@ -51,18 +55,18 @@ variable "initContainers" {
         host    = optional(string, "")
         scheme  = optional(string, "HTTP")
         header  = optional(map(string), {})
-      }), { enabled = false, port = null})
+      }), { enabled = false, port = null })
       tcpSocket = optional(object({
         enabled = bool
         port    = string
-      }), { enabled = false, port = null})
+      }), { enabled = false, port = null })
     }), {})
 
     postStart = optional(object({
       exec = optional(object({
         enabled = bool
         command = list(string)
-      }), { enabled = false, command = []})
+      }), { enabled = false, command = [] })
       httpGet = optional(object({
         enabled = bool
         path    = optional(string, "/")
@@ -70,11 +74,11 @@ variable "initContainers" {
         host    = optional(string, "")
         scheme  = optional(string, "HTTP")
         header  = optional(map(string), {})
-      }), { enabled = false, port = null})
+      }), { enabled = false, port = null })
       tcpSocket = optional(object({
         enabled = bool
         port    = string
-      }), { enabled = false, port = null})
+      }), { enabled = false, port = null })
     }), {})
 
   }))
