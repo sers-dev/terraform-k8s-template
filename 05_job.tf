@@ -23,9 +23,7 @@ resource "kubernetes_job_v1" "job" {
 
     template {
       metadata {
-        labels = merge(var.consistency.soft.labels, {
-          hash = sha1(base64encode(join("", concat(local.configVolumeHashData, local.configEnvHashData, local.secretVolumeHashData, local.secretEnvHashData, local.customCommandsHashData))))
-        })
+        labels = local.templateLabels
         annotations = var.podResourceTypeConfig.podAnnotations
       }
 
@@ -76,7 +74,7 @@ resource "kubernetes_job_v1" "job" {
             topology_key       = topology_spread_constraint.value.topologyKey
             when_unsatisfiable = topology_spread_constraint.value.whenUnsatisfiable
             label_selector {
-              match_labels = var.consistency.soft.matchLabels
+              match_labels = local.templateLabels
             }
           }
         }

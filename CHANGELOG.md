@@ -1,3 +1,12 @@
+## [3.0.0] - 2025-02-24
+
+- reworked `topologySpread` configuration to use `templateLabels`  instead of `var.consistency.soft.matchLabels`
+  - added `images` label hash to `templateLabels` for unique identification within the toplogySpread
+  - Rolling upgrades may result in unexpected pod states that no longer follow the configured `topologySpread` 
+  - [reference](https://github.com/kubernetes/kubernetes/issues/98215#issuecomment-766146323)
+  - NOTE: upgrading to this release, will trigger a rolling upgrade because of label changes
+
+
 ## [2.4.0] - 2025-01-01
 
 - added seccompProfile options for `var.containers` and `var.init_containers`
