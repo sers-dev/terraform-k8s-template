@@ -882,4 +882,9 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
       }
     }
   }
+  lifecycle {
+    ignore_changes = [
+      spec.0.volume_claim_template.0.metadata.0.labels,
+    ]
+  }
 }

@@ -5,7 +5,7 @@
   - Rolling upgrades may result in unexpected pod states that no longer follow the configured `topologySpread` 
   - [reference](https://github.com/kubernetes/kubernetes/issues/98215#issuecomment-766146323)
   - NOTE: upgrading to this release, will trigger a rolling upgrade because of label changes
-
+- add `spec.0.volume_claim_template.0.metadata.0.labels` to `lifecycle_ignore` for statefulset, because those labels can't be updated
 
 ## [2.4.0] - 2025-01-01
 
