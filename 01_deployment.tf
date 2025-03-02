@@ -459,6 +459,7 @@ resource "kubernetes_deployment_v1" "deployment" {
                 mount_path        = volume_mount.value.path
                 mount_propagation = volume_mount.value.propagation
                 name              = volume_mount.key
+                read_only         = volume_mount.value.readOnly
               }
             }
 
@@ -860,6 +861,7 @@ resource "kubernetes_deployment_v1" "deployment" {
                 mount_path        = volume_mount.value.path
                 mount_propagation = volume_mount.value.propagation
                 name              = volume_mount.key
+                read_only         = volume_mount.value.readOnly
               }
             }
 

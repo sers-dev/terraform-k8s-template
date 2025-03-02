@@ -457,6 +457,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                     mount_path        = volume_mount.value.path
                     mount_propagation = volume_mount.value.propagation
                     name              = volume_mount.key
+                    read_only         = volume_mount.value.readOnly
                   }
                 }
 
@@ -729,6 +730,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                     mount_path        = volume_mount.value.path
                     mount_propagation = volume_mount.value.propagation
                     name              = volume_mount.key
+                    read_only         = volume_mount.value.readOnly
                   }
                 }
 

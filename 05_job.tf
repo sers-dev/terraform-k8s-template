@@ -430,6 +430,7 @@ resource "kubernetes_job_v1" "job" {
                 mount_path        = volume_mount.value.path
                 mount_propagation = volume_mount.value.propagation
                 name              = volume_mount.key
+                read_only         = volume_mount.value.readOnly
               }
             }
 
@@ -693,6 +694,7 @@ resource "kubernetes_job_v1" "job" {
                 mount_path        = volume_mount.value.path
                 mount_propagation = volume_mount.value.propagation
                 name              = volume_mount.key
+                read_only         = volume_mount.value.readOnly
               }
             }
 

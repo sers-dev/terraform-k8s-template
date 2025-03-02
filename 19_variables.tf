@@ -237,6 +237,7 @@ variable "volumes" {
       path        = string
       type        = string
       propagation = string
+      readOnly    = optional(bool, false)
     })), {})
   })
 
