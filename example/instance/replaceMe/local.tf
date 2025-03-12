@@ -17,6 +17,7 @@ locals {
   tfWaitForRollout = false
 
   infrastructureSize = "S"
+  infraOverrideConfig = {}
 
   persistence = {
     forceDisable       = false

@@ -21,8 +21,6 @@ module "template" {
   podResourceTypeConfig = local.podResourceTypeConfig
   initContainers        = local.initContainers
   volumes               = local.volumes
-  architecture          = var.architecture
-  operatingSystem       = var.operatingSystem
 
   imagePullSecretNames = var.imagePullSecretNames
   service              = local.service
@@ -34,5 +32,6 @@ module "template" {
   hostConfig              = local.hostConfig
   topologySpread          = local.topologySpread
   infrastructureSize      = var.infrastructureSize
+  infraOverrideConfig     = var.infraOverrideConfig
   horizontalPodAutoscaler = local.horizontalPodAutoscaler
 }

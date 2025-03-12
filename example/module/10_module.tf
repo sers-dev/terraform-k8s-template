@@ -21,6 +21,7 @@ module "replaceMe" {
   persistence          = var.persistence
   imagePullSecretNames = var.imagePullSecretNames
   infrastructureSize   = var.infrastructureSize
+  infraOverrideConfig  = var.infraOverrideConfig
   tfWaitForRollout     = var.tfWaitForRollout
 
   architecture    = var.architecture
