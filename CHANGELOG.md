@@ -8,6 +8,8 @@
 - add `spec.0.volume_claim_template.0.metadata.0.labels` to `lifecycle_ignore` for statefulset, because those labels can't be updated
 - allow `hostPath` configs to be mounted as `readOnly`
 - allow configuration of `internalTrafficPolicy` for `clusterIP` services
+- add new optional variable `infraOverrideConfig` that allows overriding defaults supplied through `infrastructureSize`
+- `infrastructureSize` no longer supports additional optional dynamic resource multiplicator introduces in `1.6.0`
 
 ## [2.4.0] - 2025-01-01
 

@@ -24,7 +24,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
         annotations = var.podResourceTypeConfig.annotations
       }
       spec {
-        parallelism                = var.podResourceTypeConfig.minReplicas
+        parallelism                = var.infraOverrideConfig.replicas.min == null ? var.podResourceTypeConfig.minReplicas : var.infraOverrideConfig.replicas.min
         backoff_limit              = var.podResourceTypeConfig.backoffLimit
         ttl_seconds_after_finished = var.podResourceTypeConfig.ttlSecondsAfterFinished
         completions                = var.podResourceTypeConfig.completions
@@ -380,8 +380,8 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                 }
 
                 resources {
-                  requests = init_container.value.resources[local.infrastructureSize].requests
-                  limits   = init_container.value.resources[local.infrastructureSize].limits
+                  requests = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, local.infrastructureSize, local.fallbackResources)).requests
+                  limits   = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, local.infrastructureSize, local.fallbackResources)).limits
                 }
 
                 dynamic "volume_mount" {
@@ -653,8 +653,8 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                 }
 
                 resources {
-                  requests = { for k, v in container.value.resources[local.infrastructureSize].requests : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
-                  limits   = { for k, v in container.value.resources[local.infrastructureSize].limits : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
+                  requests = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, local.infrastructureSize, local.fallbackResources)).requests
+                  limits   = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, local.infrastructureSize, local.fallbackResources)).limits
                 }
 
                 dynamic "volume_mount" {

@@ -10,7 +10,7 @@ resource "kubernetes_deployment_v1" "deployment" {
   }
 
   spec {
-    replicas = var.podResourceTypeConfig.minReplicas
+    replicas = var.infraOverrideConfig.replicas.min == null ? var.podResourceTypeConfig.minReplicas : var.infraOverrideConfig.replicas.min
 
     strategy {
       type = local.pvcEnabled ? "Recreate" : "RollingUpdate"
@@ -382,8 +382,8 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             resources {
-              requests = init_container.value.resources[local.infrastructureSize].requests
-              limits   = init_container.value.resources[local.infrastructureSize].limits
+              requests = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, local.infrastructureSize, local.fallbackResources)).requests
+              limits   = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, local.infrastructureSize, local.fallbackResources)).limits
             }
 
             dynamic "volume_mount" {
@@ -784,8 +784,8 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             resources {
-              requests = { for k, v in container.value.resources[local.infrastructureSize].requests : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
-              limits   = { for k, v in container.value.resources[local.infrastructureSize].limits : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
+              requests = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, local.infrastructureSize, local.fallbackResources)).requests
+              limits   = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, local.infrastructureSize, local.fallbackResources)).limits
             }
 
             dynamic "volume_mount" {
