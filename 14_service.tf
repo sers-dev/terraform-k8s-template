@@ -47,6 +47,7 @@ variable "service" {
       ip                       = optional(string, null)
       publishNotReadyAddresses = optional(bool, false)
       sessionAffinity          = optional(string, "None")
+      internalTrafficPolicy    = optional(string, "Cluster")
       annotations              = optional(map(string), {})
       remapPorts               = optional(map(string), {})
     }), {})
@@ -86,6 +87,7 @@ resource "kubernetes_service_v1" "clusterIp" {
     cluster_ip                  = var.service.clusterIp.ip
     publish_not_ready_addresses = var.service.clusterIp.publishNotReadyAddresses
     session_affinity            = var.service.clusterIp.sessionAffinity
+    internal_traffic_policy     = var.service.clusterIp.internalTrafficPolicy
 
     dynamic "port" {
       for_each = local.serviceClusterIpPorts

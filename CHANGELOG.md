@@ -7,6 +7,7 @@
   - NOTE: upgrading to this release, will trigger a rolling upgrade because of label changes
 - add `spec.0.volume_claim_template.0.metadata.0.labels` to `lifecycle_ignore` for statefulset, because those labels can't be updated
 - allow `hostPath` configs to be mounted as `readOnly`
+- allow configuration of `internalTrafficPolicy` for `clusterIP` services
 
 ## [2.4.0] - 2025-01-01
 
