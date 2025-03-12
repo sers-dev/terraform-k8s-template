@@ -6,9 +6,6 @@ variable "imagePullSecretNames" {
   type = list(string)
 }
 
-variable "operatingSystem" {}
-variable "architecture" {}
-
 variable "infrastructureSize" {}
 
 variable "infraOverrideConfig" {
