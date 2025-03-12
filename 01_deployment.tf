@@ -382,8 +382,8 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             resources {
-              requests = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, local.infrastructureSize, local.fallbackResources)).requests
-              limits   = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, local.infrastructureSize, local.fallbackResources)).limits
+              requests = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, var.infrastructureSize, local.fallbackResources)).requests
+              limits   = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, var.infrastructureSize, local.fallbackResources)).limits
             }
 
             dynamic "volume_mount" {
@@ -784,8 +784,8 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             resources {
-              requests = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, local.infrastructureSize, local.fallbackResources)).requests
-              limits   = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, local.infrastructureSize, local.fallbackResources)).limits
+              requests = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, var.infrastructureSize, local.fallbackResources)).requests
+              limits   = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, var.infrastructureSize, local.fallbackResources)).limits
             }
 
             dynamic "volume_mount" {
