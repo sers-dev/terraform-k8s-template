@@ -20,6 +20,7 @@ locals {
   infraOverrideConfig = {}
 
   persistence = {
+    forceHostPath      = null
     forceDisable       = false
     storageAccessModes = ["ReadWriteOnce"]
     storageClassName   = "replaceMe"

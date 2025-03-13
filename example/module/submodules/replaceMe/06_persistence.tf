@@ -1,5 +1,5 @@
 locals {
-  persistence = merge(var.persistence, {
+  persistence = {
     enablePersistence = false,
     mounts = [
       {
@@ -7,5 +7,5 @@ locals {
         volumePath    = null
       },
     ]
-  })
+  }
 }

@@ -1,10 +1,9 @@
-variable "architecture" {}
-variable "operatingSystem" {}
 variable "image" {}
 
 variable "persistence" {
   description = "K8S persistence configuration"
   type = object({
+    forceHostPath      = optional(string, null)
     forceDisable       = bool
     storageSize        = string
     storageClassName   = string

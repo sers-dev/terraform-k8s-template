@@ -33,3 +33,5 @@ variable "namespace" {}
 variable "owner" {}
 variable "tfModule" {}
 variable "tfModuleVersion" {}
+variable "architecture" {}
+variable "operatingSystem" {}

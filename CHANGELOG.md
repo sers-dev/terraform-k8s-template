@@ -11,6 +11,7 @@
 - add new optional variable `infraOverrideConfig` that allows overriding defaults supplied through `infrastructureSize`
 - `infrastructureSize` no longer supports additional optional dynamic resource multiplicator introduces in `1.6.0`
 - removed unused variables `operatingSystem` and `architecture`
+- in repository example template now supports pvc override with `hostPath`
 
 ## [2.4.0] - 2025-01-01
 

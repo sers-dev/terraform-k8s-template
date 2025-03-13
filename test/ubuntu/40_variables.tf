@@ -13,6 +13,7 @@ variable "persistence" {
   description = "K8S persistence configuration"
   type = object({
     forceDisable       = bool
+    forceHostPath      = optional(string, null)
     storageSize        = string
     storageClassName   = string
     storageAccessModes = list(string)

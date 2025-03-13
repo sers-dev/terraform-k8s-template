@@ -12,14 +12,14 @@ module "template" {
 
   rbac = local.rbac
 
-  persistence = local.persistence
+  persistence = local.preparedPersistence
 
   applicationConfig = local.applicationConfig
   containers        = local.containers
 
   podResourceTypeConfig = local.podResourceTypeConfig
   initContainers        = local.initContainers
-  volumes               = local.volumes
+  volumes               = local.preparedVolumes
 
   imagePullSecretNames = var.imagePullSecretNames
   service              = local.service
