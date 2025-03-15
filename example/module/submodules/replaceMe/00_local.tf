@@ -1,12 +1,12 @@
 locals {
   forceHostPathEnabled = var.persistence.forceHostPath != null
 
-  preparedPersistence = merge({
-    forceDisable       = local.forceHostPathEnabled || var.persistence.forceDisable
+  preparedPersistence = merge(local.persistence, {
+    forceDisable       = (local.forceHostPathEnabled || var.persistence.forceDisable)
     storageSize        = var.persistence.storageSize
     storageClassName   = var.persistence.storageClassName
     storageAccessModes = var.persistence.storageAccessModes
-  }, local.persistence)
+  })
 
   tmphostPath = var.persistence.forceHostPath == null ? "" : var.persistence.forceHostPath
   preparedHostPath = startswith(local.tmphostPath, "/") ? local.tmphostPath : "/${local.tmphostPath}"
