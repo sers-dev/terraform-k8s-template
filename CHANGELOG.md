@@ -1,3 +1,7 @@
+## [2.5.0] - 2025-09-x
+
+- added the option to pass a non-auto-generated serviceAccountName via `var.serviceAccountName`
+
 ## [2.4.0] - 2025-01-01
 
 - added seccompProfile options for `var.containers` and `var.init_containers`
