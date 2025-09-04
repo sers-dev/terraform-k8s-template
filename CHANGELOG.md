@@ -1,4 +1,4 @@
-## [2.5.0] - 2025-09-x
+## [2.5.0] - 2025-09-05
 
 - added the option to pass a non-auto-generated serviceAccountName via `var.serviceAccountName`
 - fix: removed labels from StatefulSet volumeClaimTemplate metadata; labels are immutable after PVC creation
