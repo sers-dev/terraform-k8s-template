@@ -1,3 +1,9 @@
+## [2.5.0] - 2025-09-05
+
+- added the option to pass a non-auto-generated serviceAccountName via `var.serviceAccountName`
+- removed the custom update strategy for daemonsets
+- fix: removed labels from StatefulSet volumeClaimTemplate metadata; labels are immutable after PVC creation
+
 ## [2.4.0] - 2025-01-01
 
 - added seccompProfile options for `var.containers` and `var.init_containers`

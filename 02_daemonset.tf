@@ -12,15 +12,11 @@ resource "kubernetes_daemon_set_v1" "daemonset" {
   spec {
 
     strategy {
-      type = var.hostConfig.hostNetwork && length(local.ports) > 0 ? "OnDelete" : "RollingUpdate"
-      dynamic "rolling_update" {
-        for_each = var.hostConfig.hostNetwork && length(local.ports) > 0 ? [] : [1]
-        content {
-          max_unavailable = var.podResourceTypeConfig.rollingUpdate.maxUnavailable
-        }
+      type = "RollingUpdate"
+      rolling_update {
+        max_unavailable = var.podResourceTypeConfig.rollingUpdate.maxUnavailable
       }
     }
-
 
     selector {
       match_labels = var.consistency.soft.matchLabels
