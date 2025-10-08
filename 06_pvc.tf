@@ -25,6 +25,9 @@ resource "kubernetes_persistent_volume_claim_v1" "pvc" {
   }
 
   lifecycle {
+    ignore_changes = [
+      spec
+    ]
     prevent_destroy = true
   }
 }

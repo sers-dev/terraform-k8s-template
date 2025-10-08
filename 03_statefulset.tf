@@ -11,7 +11,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
 
   spec {
     service_name          = kubernetes_service_v1.clusterIp.0.metadata.0.name
-    replicas              = var.podResourceTypeConfig.minReplicas
+    replicas = var.infraOverrideConfig.replicas.min == null ? var.podResourceTypeConfig.minReplicas : var.infraOverrideConfig.replicas.min
     pod_management_policy = var.podResourceTypeConfig.podManagementPolicy
 
     selector {
@@ -39,9 +39,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
 
     template {
       metadata {
-        labels = merge(var.consistency.soft.labels, {
-          hash = sha1(base64encode(join("", concat(local.configVolumeHashData, local.configEnvHashData, local.secretVolumeHashData, local.secretEnvHashData, local.customCommandsHashData))))
-        })
+        labels = local.templateLabels
         annotations = var.podResourceTypeConfig.podAnnotations
       }
 
@@ -91,7 +89,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
             topology_key       = topology_spread_constraint.value.topologyKey
             when_unsatisfiable = topology_spread_constraint.value.whenUnsatisfiable
             label_selector {
-              match_labels = var.consistency.soft.matchLabels
+              match_labels = local.templateLabels
             }
           }
         }
@@ -389,8 +387,8 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
             }
 
             resources {
-              requests = init_container.value.resources[local.infrastructureSize].requests
-              limits   = init_container.value.resources[local.infrastructureSize].limits
+              requests = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, var.infrastructureSize, local.fallbackResources)).requests
+              limits   = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, var.infrastructureSize, local.fallbackResources)).limits
             }
 
             dynamic "volume_mount" {
@@ -466,6 +464,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
                 mount_path        = volume_mount.value.path
                 mount_propagation = volume_mount.value.propagation
                 name              = volume_mount.key
+                read_only         = volume_mount.value.readOnly
               }
             }
 
@@ -790,8 +789,8 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
             }
 
             resources {
-              requests = { for k, v in container.value.resources[local.infrastructureSize].requests : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
-              limits   = { for k, v in container.value.resources[local.infrastructureSize].limits : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
+              requests = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, var.infrastructureSize, local.fallbackResources)).requests
+              limits   = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, var.infrastructureSize, local.fallbackResources)).limits
             }
 
             dynamic "volume_mount" {
@@ -867,6 +866,7 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
                 mount_path        = volume_mount.value.path
                 mount_propagation = volume_mount.value.propagation
                 name              = volume_mount.key
+                read_only         = volume_mount.value.readOnly
               }
             }
 
@@ -882,5 +882,10 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
         }
       }
     }
+  }
+  lifecycle {
+    ignore_changes = [
+      spec.0.volume_claim_template.0.metadata.0.labels,
+    ]
   }
 }

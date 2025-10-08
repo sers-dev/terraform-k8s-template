@@ -4,6 +4,7 @@ locals {
       ip                       = null
       publishNotReadyAddresses = false
       sessionAffinity          = "None"
+      internalTrafficPolicy    = "Cluster"
       annotations = merge({
 
       }, var.additionalAnnotations.service)

@@ -35,7 +35,7 @@ output "internalHeadlessFqdn" {
 }
 
 output "infrastructureSize" {
-  value = local.infrastructureSize
+  value = var.infrastructureSize
 }
 
 output "loadBalancerServiceNames" {

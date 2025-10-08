@@ -24,16 +24,14 @@ resource "kubernetes_cron_job_v1" "cronJob" {
         annotations = var.podResourceTypeConfig.annotations
       }
       spec {
-        parallelism                = var.podResourceTypeConfig.minReplicas
+        parallelism                = var.infraOverrideConfig.replicas.min == null ? var.podResourceTypeConfig.minReplicas : var.infraOverrideConfig.replicas.min
         backoff_limit              = var.podResourceTypeConfig.backoffLimit
         ttl_seconds_after_finished = var.podResourceTypeConfig.ttlSecondsAfterFinished
         completions                = var.podResourceTypeConfig.completions
 
         template {
           metadata {
-            labels = merge(var.consistency.soft.labels, {
-              hash = sha1(base64encode(join("", concat(local.configVolumeHashData, local.configEnvHashData, local.secretVolumeHashData, local.secretEnvHashData, local.customCommandsHashData))))
-            })
+            labels = local.templateLabels
             annotations = var.podResourceTypeConfig.podAnnotations
           }
 
@@ -84,7 +82,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                 topology_key       = topology_spread_constraint.value.topologyKey
                 when_unsatisfiable = topology_spread_constraint.value.whenUnsatisfiable
                 label_selector {
-                  match_labels = var.consistency.soft.matchLabels
+                  match_labels = local.templateLabels
                 }
               }
             }
@@ -382,8 +380,8 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                 }
 
                 resources {
-                  requests = init_container.value.resources[local.infrastructureSize].requests
-                  limits   = init_container.value.resources[local.infrastructureSize].limits
+                  requests = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, var.infrastructureSize, local.fallbackResources)).requests
+                  limits   = lookup(var.infraOverrideConfig.resources, init_container.key, lookup(init_container.value.resources, var.infrastructureSize, local.fallbackResources)).limits
                 }
 
                 dynamic "volume_mount" {
@@ -459,6 +457,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                     mount_path        = volume_mount.value.path
                     mount_propagation = volume_mount.value.propagation
                     name              = volume_mount.key
+                    read_only         = volume_mount.value.readOnly
                   }
                 }
 
@@ -654,8 +653,8 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                 }
 
                 resources {
-                  requests = { for k, v in container.value.resources[local.infrastructureSize].requests : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
-                  limits   = { for k, v in container.value.resources[local.infrastructureSize].limits : k => v == null ? null : "${regex(local.resourceMultiplierRegex, v)[0] * local.resourceMultiplier}${regex(local.resourceMultiplierRegex, v)[1]}" }
+                  requests = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, var.infrastructureSize, local.fallbackResources)).requests
+                  limits   = lookup(var.infraOverrideConfig.resources, container.key, lookup(container.value.resources, var.infrastructureSize, local.fallbackResources)).limits
                 }
 
                 dynamic "volume_mount" {
@@ -731,6 +730,7 @@ resource "kubernetes_cron_job_v1" "cronJob" {
                     mount_path        = volume_mount.value.path
                     mount_propagation = volume_mount.value.propagation
                     name              = volume_mount.key
+                    read_only         = volume_mount.value.readOnly
                   }
                 }
 

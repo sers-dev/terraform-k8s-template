@@ -12,8 +12,8 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "horizontalPodAutoscaler" {
   }
 
   spec {
-    min_replicas = var.podResourceTypeConfig.minReplicas
-    max_replicas = var.podResourceTypeConfig.maxReplicas
+    min_replicas = var.infraOverrideConfig.replicas.min == null ? var.podResourceTypeConfig.minReplicas : var.infraOverrideConfig.replicas.min
+    max_replicas = var.infraOverrideConfig.replicas.max == null ? var.podResourceTypeConfig.maxReplicas : var.infraOverrideConfig.replicas.max
 
     scale_target_ref {
       kind = var.podResourceType == "deployment" ? "Deployment" : "StatefulSet"

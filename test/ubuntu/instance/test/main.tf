@@ -13,6 +13,7 @@ module "this" {
   imagePullSecretNames = local.imagePullSecretNames
   persistence          = local.persistence
   infrastructureSize   = local.infrastructureSize
+  infraOverrideConfig  = local.infraOverrideConfig
   tfWaitForRollout     = local.tfWaitForRollout
 
   additionalAnnotations = local.additionalAnnotations

@@ -1,3 +1,20 @@
+## [3.0.0] - 2025-02-24
+
+- reworked `topologySpread` configuration to use `templateLabels`  instead of `var.consistency.soft.matchLabels`
+  - added `images` label hash to `templateLabels` for unique identification within the toplogySpread
+  - Rolling upgrades may result in unexpected pod states that no longer follow the configured `topologySpread` 
+  - [reference](https://github.com/kubernetes/kubernetes/issues/98215#issuecomment-766146323)
+  - NOTE: upgrading to this release, will trigger a rolling upgrade because of label changes
+- add `spec.0.volume_claim_template.0.metadata.0.labels` to `lifecycle_ignore` for statefulset, because those labels can't be updated
+- allow `hostPath` configs to be mounted as `readOnly`
+- allow configuration of `internalTrafficPolicy` for `clusterIP` services
+- add new optional variable `infraOverrideConfig` that allows overriding defaults supplied through `infrastructureSize`
+- `infrastructureSize` no longer supports additional optional dynamic resource multiplicator introduced in `1.6.0`
+- removed unused variables `operatingSystem` and `architecture`
+- in repository example template now supports pvc override with `hostPath`
+- add lifecycle.ignore_changes to `pvc` resource
+  - pvc adjustments should be planned and implemented manually
+
 ## [2.6.0] - 2025-10-08
 
 - added lifecycle_ignore for `load_balancer_class` to loadbalancer service

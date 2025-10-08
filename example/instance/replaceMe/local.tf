@@ -17,8 +17,10 @@ locals {
   tfWaitForRollout = false
 
   infrastructureSize = "S"
+  infraOverrideConfig = {}
 
   persistence = {
+    forceHostPath      = null
     forceDisable       = false
     storageAccessModes = ["ReadWriteOnce"]
     storageClassName   = "replaceMe"

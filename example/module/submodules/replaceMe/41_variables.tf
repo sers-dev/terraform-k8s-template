@@ -1,10 +1,9 @@
-variable "architecture" {}
-variable "operatingSystem" {}
 variable "image" {}
 
 variable "persistence" {
   description = "K8S persistence configuration"
   type = object({
+    forceHostPath      = optional(string, null)
     forceDisable       = bool
     storageSize        = string
     storageClassName   = string
@@ -17,6 +16,24 @@ variable "imagePullSecretNames" {
 }
 variable "infrastructureSize" {
   type = string
+}
+variable "infraOverrideConfig" {
+  type = object({
+    replicas = optional(object({
+      min = optional(number, null)
+      max = optional(number, null)
+    }), {})
+    resources = optional(map(object({
+      requests = optional(object({
+        cpu = optional(string, null)
+        memory = optional(string, null)
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string, null)
+        memory = optional(string, null)
+      }), {})
+    })), {})
+  })
 }
 variable "tfWaitForRollout" {
   type = bool
