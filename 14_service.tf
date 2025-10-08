@@ -177,4 +177,8 @@ resource "kubernetes_service_v1" "loadBalancer" {
 
     selector = var.consistency.soft.matchLabels
   }
+
+  lifecycle {
+    ignore_changes = [ spec[0].load_balancer_class ]
+  }
 }

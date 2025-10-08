@@ -2,7 +2,7 @@ resource "kubernetes_service_account_v1" "serviceAccount" {
   count = var.podResourceType != "none" ? 1 : 0
 
   metadata {
-    name      = var.consistency.hard.namespaceUniqueName
+    name      = coalesce(var.serviceAccountName, var.consistency.hard.namespaceUniqueName)
     namespace = var.consistency.hard.namespace
     labels    = var.consistency.soft.labels
   }
