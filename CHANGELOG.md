@@ -1,3 +1,7 @@
+## [2.6.0] - 2025-10-08
+
+- added lifecycle_ignore for `load_balancer_class` to loadbalancer service
+
 ## [2.5.0] - 2025-09-05
 
 - added the option to pass a non-auto-generated serviceAccountName via `var.serviceAccountName`
