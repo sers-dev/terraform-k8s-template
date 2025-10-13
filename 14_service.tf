@@ -65,6 +65,7 @@ variable "service" {
       annotations                   = optional(map(string), {})
       remapPorts                    = optional(map(string), {})
       forceNodePortType             = optional(bool, false)
+      loadBalancerClass             = optional(string, "")
     })), [])
   })
 
@@ -152,6 +153,7 @@ resource "kubernetes_service_v1" "loadBalancer" {
     session_affinity                  = var.service.loadBalancer[count.index].sessionAffinity
     external_traffic_policy           = var.service.loadBalancer[count.index].externalTrafficPolicy
     load_balancer_source_ranges       = var.service.loadBalancer[count.index].sourceRanges
+    load_balancer_class               = var.service.loadBalancer[count.index].loadBalancerClass
 
     dynamic "port" {
       for_each = local.serviceLoadBalancerPortsTcp
@@ -174,9 +176,5 @@ resource "kubernetes_service_v1" "loadBalancer" {
     }
 
     selector = var.consistency.soft.matchLabels
-  }
-
-  lifecycle {
-    ignore_changes = [ spec[0].load_balancer_class ]
   }
 }
