@@ -1,3 +1,7 @@
+## [2.6.1] - 2025-10-13
+
+- added loadBalancerClass configuration, usage is expected to be required in the future. 
+
 ## [2.6.0] - 2025-10-08
 
 - added lifecycle_ignore for `load_balancer_class` to loadbalancer service
