@@ -65,7 +65,7 @@ variable "service" {
       annotations                   = optional(map(string), {})
       remapPorts                    = optional(map(string), {})
       forceNodePortType             = optional(bool, false)
-      loadBalancerClass             = optional(string, "")
+      loadBalancerClass             = optional(string, null)
     })), [])
   })
 
