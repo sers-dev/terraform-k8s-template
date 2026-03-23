@@ -24,7 +24,6 @@ resource "kubernetes_stateful_set_v1" "statefulset" {
         metadata {
           name      = var.consistency.hard.namespaceUniqueName
           namespace = var.consistency.hard.namespace
-          labels    = var.consistency.soft.labels
         }
         spec {
           storage_class_name = var.persistence.storageClassName

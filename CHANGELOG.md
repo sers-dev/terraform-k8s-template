@@ -9,12 +9,21 @@
 - allow `hostPath` configs to be mounted as `readOnly`
 - allow configuration of `internalTrafficPolicy` for `clusterIP` services
 - add new optional variable `infraOverrideConfig` that allows overriding defaults supplied through `infrastructureSize`
-- `infrastructureSize` no longer supports additional optional dynamic resource multiplicator introduces in `1.6.0`
+- `infrastructureSize` no longer supports additional optional dynamic resource multiplicator introduced in `1.6.0`
 - removed unused variables `operatingSystem` and `architecture`
 - in repository example template now supports pvc override with `hostPath`
 - add lifecycle.ignore_changes to `pvc` resource
   - pvc adjustments should be planned and implemented manually
 
+## [2.6.0] - 2025-10-08
+
+- added lifecycle_ignore for `load_balancer_class` to loadbalancer service
+
+## [2.5.0] - 2025-09-05
+
+- added the option to pass a non-auto-generated serviceAccountName via `var.serviceAccountName`
+- removed the custom update strategy for daemonsets
+- fix: removed labels from StatefulSet volumeClaimTemplate metadata; labels are immutable after PVC creation
 
 ## [2.4.0] - 2025-01-01
 
