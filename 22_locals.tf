@@ -1,6 +1,12 @@
 locals {
   templateLabels = merge(var.consistency.soft.labels, {
-    hash = sha1(base64encode(join("", concat(local.configVolumeHashData, local.configEnvHashData, local.secretVolumeHashData, local.secretEnvHashData, local.customCommandsHashData))))
+    hash = sha1(base64encode(join("", concat(
+      [for v in local.configVolumeHashData : v if v != null],
+      [for v in local.configEnvHashData : v if v != null],
+      [for v in local.secretVolumeHashData : v if v != null],
+      [for v in local.secretEnvHashData : v if v != null],
+      [for v in local.customCommandsHashData : v if v != null],
+    ))))
     images = sha1(base64encode(join("", concat([for k, v in var.containers: v.image], [for k, v in var.initContainers: v.image]))))
   })
 }
